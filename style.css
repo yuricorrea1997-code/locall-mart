@@ -114,7 +114,7 @@ header nav a {
     }
 }
 
-.menu-item {
+.menu-item{
     background-color: var(--dark-card);
     padding: 20px;
     border-radius: 8px;
@@ -122,6 +122,11 @@ header nav a {
     justify-content: space-between;
     align-items: center;
     border-left: 4px solid var(--primary-color);
+}
+
+.item-info {
+    flex: 1;             /* Faz o texto ocupar o espaço que sobrar */
+    padding-right: 15px; /* Dá um respiro para não grudar no preço */
 }
 
 .item-info h4 {
@@ -138,7 +143,8 @@ header nav a {
     font-weight: bold;
     color: var(--primary-color);
     font-size: 1.2rem;
-    margin-left: 15px;
+    white-space: nowrap; /* O SEGREDO: Impede o preço de quebrar linha */
+    flex-shrink: 0;      /* O SEGREDO: Impede o preço de ser esmagado */
 }
 
 .full-menu-link {
@@ -173,3 +179,4 @@ footer p {
     text-decoration: none;
     margin: 0 10px;
 }
+

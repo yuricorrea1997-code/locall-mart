@@ -1,0 +1,175 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --primary-color: #FF9F1C; /* Laranja vibrante (fome/atenção) */
+    --bg-color: #121212;      /* Fundo escuro (elegante para bares) */
+    --text-color: #f1f1f1;    /* Texto claro */
+    --dark-card: #1e1e1e;     /* Fundo dos cards */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #000;
+    padding: 20px 0;
+    position: sticky; /* Menu fixa no topo ao rolar */
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+header nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: 500;
+}
+
+/* Hero Section */
+.hero {
+    /* Aqui você colocará a foto do bar depois */
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 60vh; /* 60% da altura da tela */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.btn-cta {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #000;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 50px;
+    margin-top: 20px;
+    transition: transform 0.2s;
+}
+
+.btn-cta:hover {
+    transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
+}
+
+/* Cardápio */
+.menu-section {
+    padding: 50px 0;
+}
+
+.menu-section h3 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile: 1 coluna */
+    gap: 20px;
+}
+
+/* Em telas maiores, usa 2 colunas */
+@media (min-width: 768px) {
+    .menu-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.menu-item {
+    background-color: var(--dark-card);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid var(--primary-color);
+}
+
+.item-info h4 {
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.item-info p {
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+.price {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-left: 15px;
+}
+
+.full-menu-link {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn-secondary {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Rodapé */
+footer {
+    background-color: #000;
+    padding: 40px 0;
+    text-align: center;
+    border-top: 1px solid #333;
+}
+
+footer p {
+    color: #777;
+    margin: 5px 0;
+}
+
+.socials {
+    margin: 20px 0;
+}
+
+.socials a {
+    color: var(--primary-color);
+    text-decoration: none;
+    margin: 0 10px;
+}

@@ -212,7 +212,7 @@ footer p {
     margin: 0 10px;
 }
 
-/* --- ESTILO NOVO DO CARRINHO --- */
+/* --- BLOCO DO CARRINHO ATUALIZADO --- */
 
 .carrinho-bar {
     position: fixed;
@@ -224,109 +224,46 @@ footer p {
     display: none; /* Começa invisível */
     z-index: 999;
     box-shadow: 0 -5px 20px rgba(0,0,0,0.8);
-    transition: all 0.3s ease; /* Animação suave */
+    /* Removemos o transition daqui para evitar delay na abertura */
 }
 
-/* Cabeçalho da barra (onde fica o total) */
 .carrinho-header {
     padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer; /* Indica que pode interagir */
-    background-color: #222; /* Garante cor de fundo */
+    cursor: pointer;
+    background-color: #222;
     position: relative;
     z-index: 2;
 }
 
-/* Corpo da lista (escondido inicialmente) */
 .carrinho-body {
-    max-height: 0; /* Altura zero = escondido */
-    overflow: hidden; /* Esconde o que passar da altura */
+    max-height: 0; /* Escondido por padrão */
+    overflow-y: auto; /* Permite rolar se a lista for grande */
     background-color: #1a1a1a;
-    transition: max-height 0.5s ease; /* Animação de deslizar */
+    transition: max-height 0.4s ease-in-out; /* Animação suave */
 }
 
-/* Quando passar o mouse na BARRA INTEIRA */
-.carrinho-bar:hover .carrinho-body {
-    max-height: 50vh; /* Cresce até 50% da tela se precisar */
-    overflow-y: auto; /* Adiciona rolagem se a lista for gigante */
+/* --- A MÁGICA: CLASSE QUE ABRE O CARRINHO --- */
+.carrinho-body.aberto {
+    max-height: 60vh; /* Abre até 60% da tela */
 }
 
-/* Estilo da Lista */
-#lista-itens {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+/* Gira a setinha quando estiver aberto */
+.carrinho-header .fa-chevron-up {
+    transition: transform 0.3s;
+}
+.carrinho-header.aberto .fa-chevron-up {
+    transform: rotate(180deg); /* Vira a seta para baixo */
 }
 
-#lista-itens li {
-    padding: 10px 20px;
-    border-bottom: 1px solid #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #ddd;
-}
-
-#lista-itens li:hover {
-    background-color: #2a2a2a;
-}
-
-.item-actions {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.item-preco {
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
-/* Botão de Lixeira */
-.btn-remove {
-    background: none;
-    border: none;
-    color: #ff4d4d; /* Vermelho */
-    cursor: pointer;
-    font-size: 1.1rem;
-    transition: transform 0.2s;
-    padding: 5px;
-}
-
-.btn-remove:hover {
-    transform: scale(1.2); /* Aumenta um pouco ao passar o mouse */
-    color: #ff0000;
-}
-
-/* Textos do Header */
-.carrinho-info p {
-    font-weight: bold;
-    font-size: 1.1rem;
-    color: #fff;
-    margin: 0;
-}
-
-.carrinho-info span#itens-count {
-    font-size: 0.8rem;
-    color: #aaa;
-    display: flex;
-    align-items: center;
-}
-
-.btn-finalizar {
-    background-color: #25D366;
-    color: #fff;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 50px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    z-index: 3;
-}
-
-
-
-
+/* (O resto do CSS da lista continua igual...) */
+#lista-itens { list-style: none; padding: 0; margin: 0; }
+#lista-itens li { padding: 10px 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; color: #ddd; }
+.item-actions { display: flex; align-items: center; gap: 15px; }
+.item-preco { font-weight: bold; color: var(--primary-color); }
+.btn-remove { background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 1.1rem; padding: 5px; }
+.carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
+.carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
+.btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }

@@ -132,28 +132,18 @@
     </footer>
 
 <div id="carrinho-bar" class="carrinho-bar">
-    <div class="carrinho-info">
-        <p>Total: <span id="valor-total">R$ 0,00</span></p>
-        <span id="itens-count">0 itens</span>
-    </div>
-    <button onclick="finalizarPedido()" class="btn-finalizar">
-        <i class="fab fa-whatsapp"></i> Finalizar Pedido
-    </button>
-</div>
-
-<div id="carrinho-bar" class="carrinho-bar">
     
-    <div class="carrinho-header">
+    <div class="carrinho-header" onclick="toggleCarrinho()">
         <div class="carrinho-info">
             <p>Total: <span id="valor-total">R$ 0,00</span></p>
-            <span id="itens-count">0 itens <i class="fas fa-chevron-up" style="font-size: 0.8rem; margin-left: 5px;"></i></span>
+            <span id="itens-count">0 itens <i id="seta-icon" class="fas fa-chevron-up" style="margin-left: 5px;"></i></span>
         </div>
         <button onclick="finalizarPedido(event)" class="btn-finalizar">
             <i class="fab fa-whatsapp"></i> Finalizar
         </button>
     </div>
 
-    <div class="carrinho-body">
+    <div id="carrinho-body" class="carrinho-body">
         <ul id="lista-itens">
             </ul>
     </div>
@@ -162,22 +152,39 @@
 <script>
     let carrinho = [];
 
+    // Função Nova: Abre e Fecha o carrinho
+    function toggleCarrinho() {
+        const body = document.getElementById('carrinho-body');
+        const header = document.querySelector('.carrinho-header');
+        
+        // Adiciona ou remove a classe "aberto"
+        body.classList.toggle('aberto');
+        header.classList.toggle('aberto');
+    }
+
     function adicionarAoCarrinho(nome, preco) {
-        // Adiciona o objeto ao array
         carrinho.push({ nome, preco });
         atualizarInterface();
         
-        // Feedback visual rápido (opcional, se quiser tirar o alert depois)
-        // alert(nome + " adicionado!"); 
+        // Abre o carrinho automaticamente quando adiciona o primeiro item
+        if(carrinho.length === 1) {
+            toggleCarrinho();
+        }
     }
 
     function removerItem(index) {
-        // Remove o item pelo índice (posição na lista)
-        // O event.stopPropagation evita que o clique feche ou bugue a barra
+        // O event.stopPropagation impede que o clique na lixeira feche o carrinho
         if(event) event.stopPropagation();
-        
-        carrinho.splice(index, 1); // Remove 1 item na posição index
+        carrinho.splice(index, 1);
         atualizarInterface();
+        
+        // Se esvaziar, fecha o carrinho
+        if(carrinho.length === 0) {
+            const body = document.getElementById('carrinho-body');
+            const header = document.querySelector('.carrinho-header');
+            body.classList.remove('aberto');
+            header.classList.remove('aberto');
+        }
     }
 
     function atualizarInterface() {
@@ -186,21 +193,17 @@
         const countSpan = document.getElementById('itens-count');
         const barra = document.getElementById('carrinho-bar');
 
-        // 1. Limpa a lista atual visual
         lista.innerHTML = '';
-        
         let total = 0;
 
-        // 2. Recria a lista baseada no array
         carrinho.forEach((item, index) => {
             total += item.preco;
-
             let li = document.createElement('li');
             li.innerHTML = `
                 <span class="item-nome">${item.nome}</span>
                 <div class="item-actions">
                     <span class="item-preco">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
-                    <button onclick="removerItem(${index})" class="btn-remove" title="Remover">
+                    <button onclick="removerItem(${index})" class="btn-remove">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
@@ -208,26 +211,22 @@
             lista.appendChild(li);
         });
 
-        // 3. Atualiza os textos
         totalSpan.innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        countSpan.innerHTML = `${carrinho.length} item(ns) <i class="fas fa-chevron-up" style="font-size: 0.8rem; margin-left: 5px;"></i>`;
+        countSpan.innerHTML = `${carrinho.length} item(ns) <i class="fas fa-chevron-up" style="margin-left: 5px;"></i>`;
 
-        // 4. Mostra ou esconde a barra
         if (carrinho.length > 0) {
-            barra.style.display = 'block'; // Mudamos para block para facilitar a animação
+            barra.style.display = 'block';
         } else {
             barra.style.display = 'none';
         }
     }
 
     function finalizarPedido(event) {
-        // Evita que o clique no botão propague para a barra (se houver conflito)
         if(event) event.stopPropagation();
-
         if (carrinho.length === 0) return;
 
         let total = 0;
-        let mensagem = "Olá, gostaria de fazer um pedido:%0A%0A";
+        let mensagem = "Olá! Gostaria de fazer um pedido no Locall Mart:%0A%0A";
         
         carrinho.forEach(item => {
             total += item.preco;
@@ -239,7 +238,6 @@
 
         // SEU NÚMERO AQUI
         let numeroTelefone = "5548991023046"; 
-        
         let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
         window.open(link, '_blank');
     }
@@ -248,6 +246,7 @@
 </body>
     
 </html>
+
 
 
 

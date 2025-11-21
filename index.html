@@ -141,41 +141,103 @@
     </button>
 </div>
 
+<div id="carrinho-bar" class="carrinho-bar">
+    
+    <div class="carrinho-header">
+        <div class="carrinho-info">
+            <p>Total: <span id="valor-total">R$ 0,00</span></p>
+            <span id="itens-count">0 itens <i class="fas fa-chevron-up" style="font-size: 0.8rem; margin-left: 5px;"></i></span>
+        </div>
+        <button onclick="finalizarPedido(event)" class="btn-finalizar">
+            <i class="fab fa-whatsapp"></i> Finalizar
+        </button>
+    </div>
+
+    <div class="carrinho-body">
+        <ul id="lista-itens">
+            </ul>
+    </div>
+</div>
+
 <script>
     let carrinho = [];
-    let total = 0;
 
     function adicionarAoCarrinho(nome, preco) {
+        // Adiciona o objeto ao array
         carrinho.push({ nome, preco });
-        total += preco;
         atualizarInterface();
-        // Feedback visual simples
-        alert(nome + " adicionado à sacola!");
+        
+        // Feedback visual rápido (opcional, se quiser tirar o alert depois)
+        // alert(nome + " adicionado!"); 
+    }
+
+    function removerItem(index) {
+        // Remove o item pelo índice (posição na lista)
+        // O event.stopPropagation evita que o clique feche ou bugue a barra
+        if(event) event.stopPropagation();
+        
+        carrinho.splice(index, 1); // Remove 1 item na posição index
+        atualizarInterface();
     }
 
     function atualizarInterface() {
-        document.getElementById('valor-total').innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        document.getElementById('itens-count').innerText = carrinho.length + " item(ns)";
+        const lista = document.getElementById('lista-itens');
+        const totalSpan = document.getElementById('valor-total');
+        const countSpan = document.getElementById('itens-count');
+        const barra = document.getElementById('carrinho-bar');
+
+        // 1. Limpa a lista atual visual
+        lista.innerHTML = '';
         
-        // Mostra a barra se tiver item
+        let total = 0;
+
+        // 2. Recria a lista baseada no array
+        carrinho.forEach((item, index) => {
+            total += item.preco;
+
+            let li = document.createElement('li');
+            li.innerHTML = `
+                <span class="item-nome">${item.nome}</span>
+                <div class="item-actions">
+                    <span class="item-preco">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                    <button onclick="removerItem(${index})" class="btn-remove" title="Remover">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            `;
+            lista.appendChild(li);
+        });
+
+        // 3. Atualiza os textos
+        totalSpan.innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        countSpan.innerHTML = `${carrinho.length} item(ns) <i class="fas fa-chevron-up" style="font-size: 0.8rem; margin-left: 5px;"></i>`;
+
+        // 4. Mostra ou esconde a barra
         if (carrinho.length > 0) {
-            document.getElementById('carrinho-bar').style.display = 'flex';
+            barra.style.display = 'block'; // Mudamos para block para facilitar a animação
+        } else {
+            barra.style.display = 'none';
         }
     }
 
-    function finalizarPedido() {
+    function finalizarPedido(event) {
+        // Evita que o clique no botão propague para a barra (se houver conflito)
+        if(event) event.stopPropagation();
+
         if (carrinho.length === 0) return;
 
+        let total = 0;
         let mensagem = "Olá, gostaria de fazer um pedido:%0A%0A";
         
         carrinho.forEach(item => {
-            mensagem += `- ${item.nome} ... R$ ${item.preco.toFixed(2)}%0A`;
+            total += item.preco;
+            mensagem += `- ${item.nome} ... R$ ${item.preco.toFixed(2).replace('.', ',')}%0A`;
         });
 
-        mensagem += `%0A*Total: R$ ${total.toFixed(2)}*`;
+        mensagem += `%0A*Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
         mensagem += "%0A%0AForma de Pagamento: (Informe aqui)";
 
-        // SEU NÚMERO AQUI (MANTENHA O 55)
+        // SEU NÚMERO AQUI
         let numeroTelefone = "5548991023046"; 
         
         let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
@@ -185,6 +247,7 @@
     
 </body>
 </html>
+
 
 
 

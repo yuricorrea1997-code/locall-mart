@@ -114,7 +114,8 @@ header nav a {
     }
 }
 
-.menu-item{
+/* Item do Menu (Base) */
+.menu-item {
     background-color: var(--dark-card);
     padding: 20px;
     border-radius: 8px;
@@ -122,6 +123,37 @@ header nav a {
     justify-content: space-between;
     align-items: center;
     border-left: 4px solid var(--primary-color);
+    
+    /* Configurações para virar botão */
+    text-decoration: none; /* Tira o sublinhado de link */
+    transition: all 0.3s ease; /* Suaviza a animação */
+    position: relative; /* Necessário para a mensagem flutuante */
+    cursor: pointer; /* Mãozinho do mouse */
+}
+
+/* Efeito ao passar o mouse (Hover) */
+.menu-item:hover {
+    transform: translateY(-5px); /* Levanta o card levemente */
+    background-color: #252525;   /* Clareia um pouco o fundo */
+    box-shadow: 0 5px 15px rgba(255, 159, 28, 0.2); /* Sombra laranja suave */
+}
+
+/* A Mensagem "Clique para Pedir" (Oculta por padrão) */
+.menu-item::after {
+    content: 'Clique para Pedir 📲'; /* O texto da mensagem */
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    font-size: 0.7rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    opacity: 0; /* Invisível inicialmente */
+    transition: opacity 0.3s;
+}
+
+/* Mostra a mensagem quando passa o mouse */
+.menu-item:hover::after {
+    opacity: 1; /* Torna visível */
 }
 
 .item-info {
@@ -179,4 +211,5 @@ footer p {
     text-decoration: none;
     margin: 0 10px;
 }
+
 

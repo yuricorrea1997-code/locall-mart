@@ -34,53 +34,71 @@
             <h3>Nossos Favoritos</h3>
             
             <div class="menu-grid">
-    <a href="https://wa.me/5548991023046?text=Olá,%20quero%20pedir%20um%20X-Locall%20Bacon" class="menu-item" target="_blank">
+    <div class="menu-item" onclick="adicionarAoCarrinho('X-Locall Bacon', 28.00)">
         <div class="item-info">
             <h4>X-Locall Bacon</h4>
             <p>Pão brioche, burger 180g, muito bacon e cheddar.</p>
         </div>
-        <span class="price">R$ 28,00</span>
-    </a>
-
-    <a href="https://wa.me/5548991023046?text=Olá,%20quero%20uma%20Porção%20de%20Isca%20de%20Peixe" class="menu-item" target="_blank">
-        <div class="item-info">
-            <h4>Porção de Fritas</h4>
-            <p>Acompanha maionese especial da casa.</p>
+        <div class="price-area">
+            <span class="price">R$ 28,00</span>
+            <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
         </div>
-        <span class="price">R$ 45,00</span>
-    </a>
+    </div>
 
-    <a href="https://wa.me/5548991023046?text=Manda%20uma%20Torre%20de%20Chopp%20pra%20cá!" class="menu-item" target="_blank">
+    <div class="menu-item" onclick="adicionarAoCarrinho('Isca de Peixe', 45.00)">
+        <div class="item-info">
+            <h4>Porção de Isca de Peixe</h4>
+            <p>Acompanha molho tártaro especial da casa.</p>
+        </div>
+        <div class="price-area">
+            <span class="price">R$ 45,00</span>
+            <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+        </div>
+    </div>
+
+    <div class="menu-item" onclick="adicionarAoCarrinho('Torre de Chopp', 35.00)">
         <div class="item-info">
             <h4>Torre de Chopp</h4>
             <p>2,5 Litros de puro malte gelado.</p>
         </div>
-        <span class="price">R$ 35,00</span>
-    </a>
+        <div class="price-area">
+            <span class="price">R$ 35,00</span>
+            <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+        </div>
+    </div>
 
-    <a href="https://wa.me/5548991023046?text=Olá,%20gostaria%20de%20pedir%20um%20X-Locall%20Coração" class="menu-item" target="_blank">
+    <div class="menu-item" onclick="adicionarAoCarrinho('X-Locall Coração', 34.00)">
         <div class="item-info">
             <h4>X-Locall Coração</h4>
             <p>Pão, maionese, alface, tomate, milho, ervilha, queijo e corações.</p>
         </div>
-        <span class="price">R$ 34,00</span>
-    </a>
+        <div class="price-area">
+            <span class="price">R$ 34,00</span>
+            <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+        </div>
+    </div>
 
-    <a href="https://wa.me/5548991023046?text=Olá,%20gostaria%20de%20pedir%20um%20X-Locall%20Filé" class="menu-item" target="_blank">
+    <div class="menu-item" onclick="adicionarAoCarrinho('X-Locall Filé', 32.00)">
         <div class="item-info">
             <h4>X-Locall Filé</h4>
             <p>Pão, maionese, salada completa, queijo e tiras de filé macias.</p>
         </div>
-        <span class="price">R$ 32,00</span>
-    </a>
-
-    <a href="https://wa.me/5548991023046?text=Desce%20um%20Chopp%20Itaipava%20gelado!" class="menu-item" target="_blank">
-        <div class="item-info">
-            <h4>Chopp 300ml ITAIPAVA</h4>
-            <p>Trincando de gelada.</p>
+        <div class="price-area">
+            <span class="price">R$ 32,00</span>
+            <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
         </div>
-        <span class="price">R$ 8,00</span>
-    </a>
+    </div>
+
+    <div class="menu-item" onclick="adicionarAoCarrinho('Chopp Itaipava', 8.00)">
+        <div class="item-info">
+            <h4>Copo de Chopp ITAIPAVA</h4>
+            <p>Tulipa trincando de gelada.</p>
+        </div>
+        <div class="price-area">
+            <span class="price">R$ 8,00</span>
+            <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+        </div>
+    </div>
 </div>
             
             <div class="full-menu-link">
@@ -113,8 +131,61 @@
         </div>
     </footer>
 
+<div id="carrinho-bar" class="carrinho-bar">
+    <div class="carrinho-info">
+        <p>Total: <span id="valor-total">R$ 0,00</span></p>
+        <span id="itens-count">0 itens</span>
+    </div>
+    <button onclick="finalizarPedido()" class="btn-finalizar">
+        <i class="fab fa-whatsapp"></i> Finalizar Pedido
+    </button>
+</div>
+
+<script>
+    let carrinho = [];
+    let total = 0;
+
+    function adicionarAoCarrinho(nome, preco) {
+        carrinho.push({ nome, preco });
+        total += preco;
+        atualizarInterface();
+        // Feedback visual simples
+        alert(nome + " adicionado à sacola!");
+    }
+
+    function atualizarInterface() {
+        document.getElementById('valor-total').innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('itens-count').innerText = carrinho.length + " item(ns)";
+        
+        // Mostra a barra se tiver item
+        if (carrinho.length > 0) {
+            document.getElementById('carrinho-bar').style.display = 'flex';
+        }
+    }
+
+    function finalizarPedido() {
+        if (carrinho.length === 0) return;
+
+        let mensagem = "Olá, gostaria de fazer um pedido:%0A%0A";
+        
+        carrinho.forEach(item => {
+            mensagem += `- ${item.nome} ... R$ ${item.preco.toFixed(2)}%0A`;
+        });
+
+        mensagem += `%0A*Total: R$ ${total.toFixed(2)}*`;
+        mensagem += "%0A%0AForma de Pagamento: (Informe aqui)";
+
+        // SEU NÚMERO AQUI (MANTENHA O 55)
+        let numeroTelefone = "5548991023046"; 
+        
+        let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
+        window.open(link, '_blank');
+    }
+</script>
+    
 </body>
 </html>
+
 
 
 

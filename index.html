@@ -475,14 +475,19 @@
 <div id="carrinho-bar" class="carrinho-bar">
     
     <div class="carrinho-header" onclick="toggleCarrinho()">
-        <div class="carrinho-info">
-            <p>Total: <span id="valor-total">R$ 0,00</span></p>
-            <span id="itens-count">0 itens <i id="seta-icon" class="fas fa-chevron-up" style="margin-left: 5px;"></i></span>
-        </div>
+    <div class="carrinho-info">
+        <p>Total: <span id="valor-total">R$ 0,00</span></p>
+        <span id="itens-count">0 itens <i id="seta-icon" class="fas fa-chevron-up" style="margin-left: 5px;"></i></span>
+    </div>
+    <div class="carrinho-botoes">
+        <button onclick="limparCarrinho()" class="btn-limpar">
+            <i class="fas fa-trash"></i> Limpar
+        </button>
         <button onclick="finalizarPedido(event)" class="btn-finalizar">
             <i class="fab fa-whatsapp"></i> Finalizar
         </button>
     </div>
+</div>
 
     <div id="carrinho-body" class="carrinho-body">
         
@@ -635,16 +640,65 @@ function scrollParaCarrinho() {
 }
 
 function limparCarrinho() {
-    carrinho = [];
-    document.getElementById('numero-mesa').value = '';
-    atualizarInterface();
+    if (event) event.stopPropagation();
     
-    // Fecha o carrinho
-    const body = document.getElementById('carrinho-body');
-    const header = document.querySelector('.carrinho-header');
-    body.classList.remove('aberto');
-    header.classList.remove('aberto');
-    document.body.classList.remove('carrinho-aberto');
+    if (carrinho.length === 0) {
+        alert("O carrinho já está vazio!");
+        return;
+    }
+    
+    if (confirm("Tem certeza que deseja limpar todo o carrinho?")) {
+        carrinho = [];
+        document.getElementById('numero-mesa').value = '';
+        atualizarInterface();
+        
+        // Fecha o carrinho
+        const body = document.getElementById('carrinho-body');
+        const header = document.querySelector('.carrinho-header');
+        body.classList.remove('aberto');
+        header.classList.remove('aberto');
+        document.body.classList.remove('carrinho-aberto');
+        
+        // Feedback visual
+        mostrarMensagem("Carrinho limpo com sucesso! 🗑️");
+    }
+}
+
+// Função para mostrar mensagem temporária
+function mostrarMensagem(mensagem) {
+    // Remove mensagem anterior se existir
+    const mensagemAnterior = document.getElementById('mensagem-carrinho');
+    if (mensagemAnterior) {
+        mensagemAnterior.remove();
+    }
+    
+    // Cria nova mensagem
+    const mensagemEl = document.createElement('div');
+    mensagemEl.id = 'mensagem-carrinho';
+    mensagemEl.textContent = mensagem;
+    mensagemEl.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--primary-color);
+        color: #000;
+        padding: 15px 25px;
+        border-radius: 10px;
+        font-weight: bold;
+        z-index: 1000;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        animation: fadeInOut 2s ease-in-out;
+    `;
+    
+    document.body.appendChild(mensagemEl);
+    
+    // Remove a mensagem após 2 segundos
+    setTimeout(() => {
+        if (mensagemEl.parentNode) {
+            mensagemEl.remove();
+        }
+    }, 2000);
 }
 
 // ===== INICIALIZAÇÃO =====
@@ -674,4 +728,5 @@ document.addEventListener('click', function(event) {
     
 </body>
 </html>
+
 

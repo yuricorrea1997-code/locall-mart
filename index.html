@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Boteco do Vizinho | Cardápio Digital e Pedidos" />
+    <meta property="og:description" content="Peça agora seu lanche artesanal, porção generosa ou cerveja trincando direto da sua mesa ou para viagem. " />
+    <meta property="og:image" content="https://yuricorrea1997-code.github.io/Bar-do-Vizinho/botecodovizinho.png" />
+    <meta property="og:url" content="https://pt.wix.com/" />
+    <meta property="og:type" content="website" />
+
+<meta name="twitter:card" content="summary_large_image">
     <title>Boteco do Vizinho</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -497,7 +504,7 @@
         
         <div style="padding: 15px 20px; border-bottom: 1px solid #333; background-color: #222; display: flex; align-items: center; justify-content: space-between;">
             <label style="color: #FF9F1C; font-weight: bold;">Qual o número da Mesa?</label>
-            <input type="number" id="numero-mesa" placeholder="00" style="width: 60px; padding: 8px; border-radius: 5px; border: 2px solid #FF9F1C; background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 1.1rem;">
+            <input type="number" id="numero-mesa" placeholder="00" style="width: 60px; padding: 8px; border-radius: 5px; border: 2px solid #FF9F1C; background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 1.1rem;" min="1" max="20">
         </div>
 
         <ul id="lista-itens">
@@ -828,6 +835,7 @@ document.addEventListener('click', function(event) {
     
 </body>
 </html>
+
 
 
 

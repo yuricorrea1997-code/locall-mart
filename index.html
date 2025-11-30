@@ -629,38 +629,62 @@ function finalizarPedido(event) {
     resumo += `\n💰 Total: R$ ${total.toFixed(2).replace('.', ',')}`;
     resumo += `\n📦 ${quantidadeItens} item(ns)`;
     resumo += `\n🪑 Mesa: ${mesa}`;
-    resumo += `\n\nDeseja enviar este pedido para o WhatsApp?`;
+    // Remove a pergunta do resumo, pois ela será tratada no modal
+    // resumo += `\n\nDeseja enviar este pedido para o WhatsApp?`;
+    
+    
+    // ----------------------------------------------------
+    // NOVO: CONFIRMAÇÃO DETALHADA CUSTOMIZADA (ANIMADA)
+    // ----------------------------------------------------
+    
+    // Usamos a função customizada, passando o resumo como a mensagem
+    confirmarAcaoCustomizada(resumo + "\n\nDeseja enviar este pedido para o WhatsApp?", (confirmou) => {
+        if (confirmou) {
+            
+            // SE O USUÁRIO CLICAR EM SIM NO MODAL CUSTOMIZADO
+            
+            // 1. Prepara a mensagem para o WhatsApp (codificação e formatação)
+            let mensagem = `*NOVO PEDIDO - MESA ${mesa}* 🍽️%0A%0A`;
+            
+            carrinho.forEach(item => {
+                mensagem += `- ${item.nome} ... R$ ${item.preco.toFixed(2).replace('.', ',')}%0A`;
+            });
 
-    // CONFIRMAÇÃO DETALHADA
-    if (confirm(resumo)) {
-        
-        let mensagem = `*NOVO PEDIDO - MESA ${mesa}* 🍽️%0A%0A`;
-        
-        carrinho.forEach(item => {
-            mensagem += `- ${item.nome} ... R$ ${item.preco.toFixed(2).replace('.', ',')}%0A`;
-        });
+            mensagem += `%0A*Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
+            mensagem += `%0A*Mesa:* ${mesa}`;
 
-        mensagem += `%0A*Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
-        mensagem += `%0A*Mesa:* ${mesa}`;
-
-        let numeroTelefone = "5548920048296"; 
-        let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
-        
-        // Feedback visual
-        mostrarMensagem("✅ Pedido enviado com sucesso!");
-        
-        // Limpa o carrinho após enviar
-        setTimeout(() => {
-            limparCarrinho();
-        }, 2000);
-        
-        // Abre o WhatsApp
-        setTimeout(() => {
-            window.open(link, '_blank');
-        }, 500);
-    } else {
-        mostrarMensagem("Pedido cancelado ❌");
-    }
+            let numeroTelefone = "5548920048296"; // O número que receberá o pedido
+            let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
+            
+            // 2. Feedback visual ANIMADO
+            mostrarMensagem("✅ Pedido enviado com sucesso! Abrindo WhatsApp...");
+            
+            // 3. Abre o WhatsApp com um pequeno delay
+            setTimeout(() => {
+                window.open(link, '_blank');
+            }, 500);
+            
+            // 4. Limpa o carrinho após enviar com um delay maior (para o usuário ver a mensagem)
+            setTimeout(() => {
+                // Não usamos limparCarrinho() aqui para evitar que ele chame o alert/confirm
+                // e apenas limpamos a interface.
+                carrinho = [];
+                document.getElementById('numero-mesa').value = '';
+                atualizarInterface();
+                
+                // Fecha o carrinho
+                const body = document.getElementById('carrinho-body');
+                const header = document.querySelector('.carrinho-header');
+                body.classList.remove('aberto');
+                header.classList.remove('aberto');
+                document.body.classList.remove('carrinho-aberto');
+            }, 2000);
+            
+        } else {
+            // SE O USUÁRIO CLICAR EM NÃO NO MODAL CUSTOMIZADO
+            mostrarMensagem("Pedido cancelado ❌");
+        }
+    });
 }
 
 // ===== FUNÇÕES ADICIONAIS PARA MELHOR EXPERIÊNCIA =====
@@ -796,6 +820,7 @@ document.addEventListener('click', function(event) {
     
 </body>
 </html>
+
 
 
 

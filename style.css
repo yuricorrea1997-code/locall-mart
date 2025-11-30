@@ -77,20 +77,23 @@ header nav a {
 
 /* Cardápio */
 .menu-section {
-    /* 1. DEFINE A IMAGEM DE FUNDO */
+    /* 1. GARANTE O BACKGROUND PRETO (Cor do tema) */
+    background-color: var(--bg-color); 
+
+    /* 2. DEFINE A IMAGEM DE FUNDO E O OVERLAY ESCURO */
     background-image: 
-        /* Adiciona um overlay escuro por cima da imagem para o texto ser legível */
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-        /* Coloca a imagem do brinde (substitua a URL) */
         url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/fundo_cardapio.jpg');
     
-    /* 2. AJUSTA VISUALIZAÇÃO */
-    background-size: cover;        /* Faz a imagem cobrir toda a área (será cortada) */
-    background-repeat: no-repeat;  /* Impede que a imagem se repita */
-    background-attachment: fixed;  /* (Opcional) Faz a imagem ficar fixa ao rolar a página */
-    background-position: center;   /* Centraliza a imagem */
+    /* 3. FORÇA COBERTURA E MANTÉM FIXO */
+    background-size: cover;        /* Faz a imagem COBRIR toda a área (sem barras) */
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
     
-    padding: 50px 0; /* Mantém o espaçamento interno */
+    /* 4. CENTRALIZA O FOCO (Horizontalmente, para não cortar o meio) */
+    background-position: center;   
+    
+    padding: 50px 0;
 }
 
 
@@ -289,6 +292,7 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 
 
 

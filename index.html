@@ -509,14 +509,17 @@ function toggleCategoria(id) {
     botao.classList.toggle('ativo');
 }
 
-// ===== FUNÇÕES DO CARRINHO =====
+// ===== FUNÇÕES DO CARRINHO MELHORADAS =====
 let carrinho = [];
 
 function toggleCarrinho() {
     const body = document.getElementById('carrinho-body');
     const header = document.querySelector('.carrinho-header');
+    const htmlBody = document.body;
+    
     body.classList.toggle('aberto');
     header.classList.toggle('aberto');
+    htmlBody.classList.toggle('carrinho-aberto');
 }
 
 function adicionarAoCarrinho(nome, preco) {
@@ -527,6 +530,7 @@ function adicionarAoCarrinho(nome, preco) {
         const header = document.querySelector('.carrinho-header');
         if (!body.classList.contains('aberto')) {
             toggleCarrinho();
+            scrollParaCarrinho();
         }
         document.getElementById('numero-mesa').focus();
     }
@@ -541,6 +545,7 @@ function removerItem(index) {
         const header = document.querySelector('.carrinho-header');
         body.classList.remove('aberto');
         header.classList.remove('aberto');
+        document.body.classList.remove('carrinho-aberto');
     }
 }
 
@@ -590,8 +595,8 @@ function finalizarPedido(event) {
         const body = document.getElementById('carrinho-body');
         const header = document.querySelector('.carrinho-header');
         if (!body.classList.contains('aberto')) {
-            body.classList.add('aberto');
-            header.classList.add('aberto');
+            toggleCarrinho();
+            scrollParaCarrinho();
         }
         document.getElementById('numero-mesa').focus();
         return;
@@ -610,9 +615,63 @@ function finalizarPedido(event) {
 
     let numeroTelefone = "5548920048296"; 
     let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
+    
+    // Limpa o carrinho após enviar
+    setTimeout(() => {
+        limparCarrinho();
+    }, 1000);
+    
     window.open(link, '_blank');
 }
+
+// ===== FUNÇÕES ADICIONAIS PARA MELHOR EXPERIÊNCIA =====
+function scrollParaCarrinho() {
+    setTimeout(() => {
+        const carrinhoBar = document.getElementById('carrinho-bar');
+        if (carrinhoBar) {
+            carrinhoBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }, 300);
+}
+
+function limparCarrinho() {
+    carrinho = [];
+    document.getElementById('numero-mesa').value = '';
+    atualizarInterface();
+    
+    // Fecha o carrinho
+    const body = document.getElementById('carrinho-body');
+    const header = document.querySelector('.carrinho-header');
+    body.classList.remove('aberto');
+    header.classList.remove('aberto');
+    document.body.classList.remove('carrinho-aberto');
+}
+
+// ===== INICIALIZAÇÃO =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Adiciona padding no body quando carrinho está aberto
+    const style = document.createElement('style');
+    style.textContent = `
+        body.carrinho-aberto {
+            padding-bottom: 200px;
+        }
+        @media (max-width: 767px) {
+            body.carrinho-aberto {
+                padding-bottom: 250px;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+});
+
+// Previne que o clique nos itens do carrinho feche o carrinho
+document.addEventListener('click', function(event) {
+    if (event.target.closest('.carrinho-body') || event.target.closest('.btn-remove')) {
+        event.stopPropagation();
+    }
+});
 </script>
     
 </body>
 </html>
+

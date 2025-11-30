@@ -242,7 +242,7 @@
     </div>
 </div>
 
-<script>
+    <script>
 // ===== FUNÇÃO PARA AS CATEGORIAS EXPANSÍVEIS =====
 function toggleCategoria(id) {
     const conteudo = document.getElementById(id);
@@ -255,16 +255,7 @@ function toggleCategoria(id) {
     botao.classList.toggle('ativo');
 }
 
-// Opcional: Fechar todas as categorias ao carregar a página
-document.addEventListener('DOMContentLoaded', function() {
-    // Inicia com todas as categorias fechadas
-    const categorias = document.querySelectorAll('.categoria-conteudo');
-    categorias.forEach(cat => {
-        cat.style.maxHeight = '0';
-    });
-});
-
-// ===== FUNÇÕES DO CARRINHO (JÁ EXISTENTES) =====
+// ===== FUNÇÕES DO CARRINHO =====
 let carrinho = [];
 
 function toggleCarrinho() {
@@ -367,11 +358,24 @@ function finalizarPedido(event) {
     let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
     window.open(link, '_blank');
 }
+
+// ===== INICIALIZAÇÃO =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Opcional: Abrir a primeira categoria automaticamente
+    // const primeiraCategoria = document.getElementById('lanches');
+    // const primeiroBotao = document.querySelector('.categoria-btn');
+    // if (primeiraCategoria && primeiroBotao) {
+    //     primeiraCategoria.classList.add('aberto');
+    //     primeiroBotao.classList.add('ativo');
+    // }
+});
 </script>
+
     
 </body>
     
 </html>
+
 
 
 

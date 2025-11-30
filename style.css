@@ -1,3 +1,32 @@
+
+/* --- ESTILO PARA O CABEÇALHO --- */
+header {
+    /* Cor de fallback (mantida) */
+    background-color: #000; 
+
+    /* COPIANDO O FUNDO DA SEÇÃO DE CARDÁPIO */
+    background-image: 
+        /* Overlay mais forte para alta legibilidade do logo/links */
+        linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+        
+        /* URL da imagem de brinde/textura (ajuste o nome se for diferente de 'fundo_cardapio.jpg') */
+        url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/fundo_cardapio.jpg');
+    
+    background-size: cover;        /* Cobre toda a área do header */
+    background-repeat: no-repeat;
+    background-attachment: fixed;  /* Mantém o fundo fixo ao rolar (efeito paralaxe sutil) */
+    background-position: center center; /* Centraliza o foco da imagem */
+
+    padding: 20px 0;
+    position: sticky; 
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+
+
+
 /* Reset básico */
 * {
     margin: 0;
@@ -292,6 +321,7 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 
 
 

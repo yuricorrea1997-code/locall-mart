@@ -606,6 +606,7 @@ function finalizarPedido(event) {
 
     let mesa = document.getElementById('numero-mesa').value;
 
+    // 1. VERIFICA SE ESTÁ VAZIO
     if (!mesa) {
         mostrarMensagem("Por favor, digite o número da sua MESA! 🪑");
         const body = document.getElementById('carrinho-body');
@@ -618,7 +619,26 @@ function finalizarPedido(event) {
         return;
     }
 
-    // PREPARA DETALHES PARA CONFIRMAÇÃO
+    // 2. NOVO: VALIDAÇÃO DE INTERVALO E NÚMERO
+    const numMesa = parseInt(mesa, 10);
+    
+    // Verifica se não é um número, se é menor que 1 ou se é maior que 20
+    if (isNaN(numMesa) || numMesa < 1 || numMesa > 20) {
+        mostrarMensagem("Número de Mesa inválido. Deve ser entre 1 e 20! ⚠️");
+        
+        // Assegura que o carrinho esteja aberto e foca no campo para correção
+        const body = document.getElementById('carrinho-body');
+        const header = document.querySelector('.carrinho-header');
+        if (!body.classList.contains('aberto')) {
+            toggleCarrinho();
+            scrollParaCarrinho();
+        }
+        document.getElementById('numero-mesa').focus();
+        return;
+    }
+    // Fim da nova validação
+    
+    // 3. PREPARA DETALHES PARA CONFIRMAÇÃO (O RESTO DO CÓDIGO PERMANECE IGUAL)
     const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
     const quantidadeItens = carrinho.length;
     
@@ -629,21 +649,12 @@ function finalizarPedido(event) {
     resumo += `\n💰 Total: R$ ${total.toFixed(2).replace('.', ',')}`;
     resumo += `\n📦 ${quantidadeItens} item(ns)`;
     resumo += `\n🪑 Mesa: ${mesa}`;
-    // Remove a pergunta do resumo, pois ela será tratada no modal
-    // resumo += `\n\nDeseja enviar este pedido para o WhatsApp?`;
     
     
-    // ----------------------------------------------------
-    // NOVO: CONFIRMAÇÃO DETALHADA CUSTOMIZADA (ANIMADA)
-    // ----------------------------------------------------
-    
-    // Usamos a função customizada, passando o resumo como a mensagem
+    // CONFIRMAÇÃO DETALHADA CUSTOMIZADA (ANIMADA)
     confirmarAcaoCustomizada(resumo + "\n\nDeseja enviar este pedido para o WhatsApp?", (confirmou) => {
         if (confirmou) {
             
-            // SE O USUÁRIO CLICAR EM SIM NO MODAL CUSTOMIZADO
-            
-            // 1. Prepara a mensagem para o WhatsApp (codificação e formatação)
             let mensagem = `*NOVO PEDIDO - MESA ${mesa}* 🍽️%0A%0A`;
             
             carrinho.forEach(item => {
@@ -653,26 +664,20 @@ function finalizarPedido(event) {
             mensagem += `%0A*Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
             mensagem += `%0A*Mesa:* ${mesa}`;
 
-            let numeroTelefone = "5548920048296"; // O número que receberá o pedido
+            let numeroTelefone = "5548920048296"; 
             let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
             
-            // 2. Feedback visual ANIMADO
             mostrarMensagem("✅ Pedido enviado com sucesso! Abrindo WhatsApp...");
             
-            // 3. Abre o WhatsApp com um pequeno delay
             setTimeout(() => {
                 window.open(link, '_blank');
             }, 500);
             
-            // 4. Limpa o carrinho após enviar com um delay maior (para o usuário ver a mensagem)
             setTimeout(() => {
-                // Não usamos limparCarrinho() aqui para evitar que ele chame o alert/confirm
-                // e apenas limpamos a interface.
                 carrinho = [];
                 document.getElementById('numero-mesa').value = '';
                 atualizarInterface();
                 
-                // Fecha o carrinho
                 const body = document.getElementById('carrinho-body');
                 const header = document.querySelector('.carrinho-header');
                 body.classList.remove('aberto');
@@ -681,7 +686,6 @@ function finalizarPedido(event) {
             }, 2000);
             
         } else {
-            // SE O USUÁRIO CLICAR EM NÃO NO MODAL CUSTOMIZADO
             mostrarMensagem("Pedido cancelado ❌");
         }
     });
@@ -820,6 +824,7 @@ document.addEventListener('click', function(event) {
     
 </body>
 </html>
+
 
 
 

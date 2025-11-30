@@ -524,6 +524,11 @@
 </div>
 
 <script>
+
+    const WHATSAPP_NUMBER = "5548920048296"; 
+
+    let carrinho = [];
+    
 // ===== FUNÇÃO PARA AS CATEGORIAS EXPANSÍVEIS =====
 function toggleCategoria(id) {
     const conteudo = document.getElementById(id);
@@ -682,7 +687,7 @@ function finalizarPedido(event) {
             mensagem += `%0A*Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
             mensagem += `%0A*Mesa:* ${mesa}`;
 
-            let numeroTelefone = "5548920048296"; 
+            let link = `https://wa.me/${WHATSAPP_NUMBER}?text=${mensagem}`;
             let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
             
             mostrarMensagem("✅ Pedido enviado com sucesso! Abrindo WhatsApp...");
@@ -842,6 +847,7 @@ document.addEventListener('click', function(event) {
     
 </body>
 </html>
+
 
 
 

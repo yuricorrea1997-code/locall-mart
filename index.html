@@ -243,123 +243,136 @@
 </div>
 
 <script>
-    let carrinho = [];
+// ===== FUNÇÃO PARA AS CATEGORIAS EXPANSÍVEIS =====
+function toggleCategoria(id) {
+    const conteudo = document.getElementById(id);
+    const botao = event.currentTarget;
+    
+    // Alterna a classe 'aberto' no conteúdo
+    conteudo.classList.toggle('aberto');
+    
+    // Alterna a classe 'ativo' no botão (para girar a seta)
+    botao.classList.toggle('ativo');
+}
 
-    // Abre e fecha o carrinho
-    function toggleCarrinho() {
+// Opcional: Fechar todas as categorias ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicia com todas as categorias fechadas
+    const categorias = document.querySelectorAll('.categoria-conteudo');
+    categorias.forEach(cat => {
+        cat.style.maxHeight = '0';
+    });
+});
+
+// ===== FUNÇÕES DO CARRINHO (JÁ EXISTENTES) =====
+let carrinho = [];
+
+function toggleCarrinho() {
+    const body = document.getElementById('carrinho-body');
+    const header = document.querySelector('.carrinho-header');
+    body.classList.toggle('aberto');
+    header.classList.toggle('aberto');
+}
+
+function adicionarAoCarrinho(nome, preco) {
+    carrinho.push({ nome, preco });
+    atualizarInterface();
+    if(carrinho.length === 1) {
         const body = document.getElementById('carrinho-body');
         const header = document.querySelector('.carrinho-header');
-        body.classList.toggle('aberto');
-        header.classList.toggle('aberto');
-    }
-
-    function adicionarAoCarrinho(nome, preco) {
-        carrinho.push({ nome, preco });
-        atualizarInterface();
-        // Abre o carrinho automaticamente no primeiro item para mostrar o campo mesa
-        if(carrinho.length === 1) {
-            const body = document.getElementById('carrinho-body');
-            const header = document.querySelector('.carrinho-header');
-            if (!body.classList.contains('aberto')) {
-                toggleCarrinho();
-            }
-            // Foca no campo mesa para o cliente ver
-            document.getElementById('numero-mesa').focus();
+        if (!body.classList.contains('aberto')) {
+            toggleCarrinho();
         }
+        document.getElementById('numero-mesa').focus();
     }
+}
 
-    function removerItem(index) {
-        if(event) event.stopPropagation();
-        carrinho.splice(index, 1);
-        atualizarInterface();
-        if(carrinho.length === 0) {
-            const body = document.getElementById('carrinho-body');
-            const header = document.querySelector('.carrinho-header');
-            body.classList.remove('aberto');
-            header.classList.remove('aberto');
+function removerItem(index) {
+    if(event) event.stopPropagation();
+    carrinho.splice(index, 1);
+    atualizarInterface();
+    if(carrinho.length === 0) {
+        const body = document.getElementById('carrinho-body');
+        const header = document.querySelector('.carrinho-header');
+        body.classList.remove('aberto');
+        header.classList.remove('aberto');
+    }
+}
+
+function atualizarInterface() {
+    const lista = document.getElementById('lista-itens');
+    const totalSpan = document.getElementById('valor-total');
+    const countSpan = document.getElementById('itens-count');
+    const barra = document.getElementById('carrinho-bar');
+
+    lista.innerHTML = '';
+    let total = 0;
+
+    carrinho.forEach((item, index) => {
+        total += item.preco;
+        let li = document.createElement('li');
+        li.innerHTML = `
+            <span class="item-nome">${item.nome}</span>
+            <div class="item-actions">
+                <span class="item-preco">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                <button onclick="removerItem(${index})" class="btn-remove">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        `;
+        lista.appendChild(li);
+    });
+
+    totalSpan.innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    countSpan.innerHTML = `${carrinho.length} item(ns) <i class="fas fa-chevron-up" style="margin-left: 5px;"></i>`;
+
+    if (carrinho.length > 0) {
+        barra.style.display = 'block';
+    } else {
+        barra.style.display = 'none';
+    }
+}
+
+function finalizarPedido(event) {
+    if(event) event.stopPropagation();
+
+    if (carrinho.length === 0) return;
+
+    let mesa = document.getElementById('numero-mesa').value;
+
+    if (!mesa) {
+        alert("Por favor, digite o número da sua MESA antes de finalizar!");
+        const body = document.getElementById('carrinho-body');
+        const header = document.querySelector('.carrinho-header');
+        if (!body.classList.contains('aberto')) {
+            body.classList.add('aberto');
+            header.classList.add('aberto');
         }
+        document.getElementById('numero-mesa').focus();
+        return;
     }
 
-    function atualizarInterface() {
-        const lista = document.getElementById('lista-itens');
-        const totalSpan = document.getElementById('valor-total');
-        const countSpan = document.getElementById('itens-count');
-        const barra = document.getElementById('carrinho-bar');
+    let total = 0;
+    let mensagem = `*NOVO PEDIDO - MESA ${mesa}* 🍽️%0A%0A`;
+    
+    carrinho.forEach(item => {
+        total += item.preco;
+        mensagem += `- ${item.nome} ... R$ ${item.preco.toFixed(2).replace('.', ',')}%0A`;
+    });
 
-        lista.innerHTML = '';
-        let total = 0;
+    mensagem += `%0A*Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
+    mensagem += `%0A*Mesa:* ${mesa}`;
 
-        carrinho.forEach((item, index) => {
-            total += item.preco;
-            let li = document.createElement('li');
-            li.innerHTML = `
-                <span class="item-nome">${item.nome}</span>
-                <div class="item-actions">
-                    <span class="item-preco">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
-                    <button onclick="removerItem(${index})" class="btn-remove">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </div>
-            `;
-            lista.appendChild(li);
-        });
-
-        totalSpan.innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        countSpan.innerHTML = `${carrinho.length} item(ns) <i class="fas fa-chevron-up" style="margin-left: 5px;"></i>`;
-
-        if (carrinho.length > 0) {
-            barra.style.display = 'block';
-        } else {
-            barra.style.display = 'none';
-        }
-    }
-
-    function finalizarPedido(event) {
-        if(event) event.stopPropagation();
-
-        if (carrinho.length === 0) return;
-
-        // 1. Pega o número da mesa
-        let mesa = document.getElementById('numero-mesa').value;
-
-        // 2. Validação: Se não digitou a mesa, avisa e abre o carrinho
-        if (!mesa) {
-            alert("Por favor, digite o número da sua MESA antes de finalizar!");
-            
-            // Força a abertura do carrinho para ele ver o campo
-            const body = document.getElementById('carrinho-body');
-            const header = document.querySelector('.carrinho-header');
-            if (!body.classList.contains('aberto')) {
-                body.classList.add('aberto');
-                header.classList.add('aberto');
-            }
-            
-            // Coloca o cursor lá no campo
-            document.getElementById('numero-mesa').focus();
-            return; // Para tudo e não envia o whats
-        }
-
-        let total = 0;
-        let mensagem = `*NOVO PEDIDO - MESA ${mesa}* 🍽️%0A%0A`; // Título com a mesa
-        
-        carrinho.forEach(item => {
-            total += item.preco;
-            mensagem += `- ${item.nome} ... R$ ${item.preco.toFixed(2).replace('.', ',')}%0A`;
-        });
-
-        mensagem += `%0A*Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
-        mensagem += `%0A*Mesa:* ${mesa}`; // Reforça a mesa no final
-
-        // SEU NÚMERO
-        let numeroTelefone = "5548920048296"; 
-        let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
-        window.open(link, '_blank');
-    }
+    let numeroTelefone = "5548920048296"; 
+    let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
+    window.open(link, '_blank');
+}
 </script>
     
 </body>
     
 </html>
+
 
 
 

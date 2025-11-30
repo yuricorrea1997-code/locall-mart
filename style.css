@@ -1,26 +1,58 @@
-/* --- ESTILO PARA O CABEÇALHO --- */
-
 header {
-    /* CORREÇÃO DA IMAGEM DE FUNDO: Usando a TEXTURA de chuva/poeira */
-    background-color: #000;
-    background-image: 
-        /* Overlay mais escuro para garantir que o logo/links sejam legíveis */
-        linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
-        
-        /* URL da sua imagem de TEXTURA (textura_header.png) */
+    min-height: 120px; /* garante que a textura apareça */
+    background-image:
+        linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
         url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/textura_header.png');
-    
-    background-size: cover; /* Correto para preencher */
-    background-repeat: no-repeat; /* Correto para não repetir */
-    background-attachment: fixed; /* Correto para efeito parallax */
-    background-position: center center; /* Correto para centralizar */
-
-    padding: 20px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 2px solid var(--primary-color);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    display: none;
+}
+
+.nav-logo {
+    background-color: transparent;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-logo img {
+    height: 70px;
+    width: auto;
+    display: block;
+    margin: 0;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+}
+
+header nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+}
+
+header nav a i {
+    margin-right: 5px;
+    color: var(--primary-color);
+}
+
+
 
 header .container {
     display: flex;
@@ -372,6 +404,7 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 
 
 

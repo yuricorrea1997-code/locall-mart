@@ -501,6 +501,14 @@
     </div>
 </div>
 
+    <div id="confirmacao-custom" class="mensagem-confirmacao">
+    <p id="confirmacao-texto"></p>
+    <div class="confirmacao-botoes">
+        <button id="btn-sim" class="btn-confirmar">Sim</button>
+        <button id="btn-nao" class="btn-cancelar">Não</button>
+    </div>
+</div>
+
 <script>
 // ===== FUNÇÃO PARA AS CATEGORIAS EXPANSÍVEIS =====
 function toggleCategoria(id) {
@@ -665,8 +673,34 @@ function scrollParaCarrinho() {
     }, 300);
 }
 
+    function confirmarAcaoCustomizada(mensagem, callback) {
+    const modal = document.getElementById('confirmacao-custom');
+    const texto = document.getElementById('confirmacao-texto');
+    const btnSim = document.getElementById('btn-sim');
+    const btnNao = document.getElementById('btn-nao');
+
+    texto.textContent = mensagem;
+    modal.classList.add('ativo');
+
+    // Função que será chamada ao clicar
+    const handleAction = (confirmar) => {
+        modal.classList.remove('ativo');
+        // Remove os listeners para evitar execuções duplicadas
+        btnSim.removeEventListener('click', handleSim);
+        btnNao.removeEventListener('click', handleNao);
+        // Chama a função de retorno (callback) com o resultado
+        callback(confirmar);
+    };
+
+    const handleSim = () => handleAction(true);
+    const handleNao = () => handleAction(false);
+
+    // Adiciona os listeners
+    btnSim.addEventListener('click', handleSim);
+    btnNao.addEventListener('click', handleNao);
+}
+
 function limparCarrinho() {
-    // Para a propagação do evento, se existir
     if (window.event) window.event.stopPropagation();
     
     if (carrinho.length === 0) {
@@ -674,27 +708,28 @@ function limparCarrinho() {
         return;
     }
     
-    // 1. Confirmação nativa
-    if (confirm("Tem certeza que deseja limpar todo o carrinho?")) {
-        
-        // 2. Ações de limpeza (SÓ SE O USUÁRIO CLICAR EM 'OK')
-        carrinho = [];
-        document.getElementById('numero-mesa').value = '';
-        atualizarInterface();
-        
-        // 3. Fechar o carrinho
-        const body = document.getElementById('carrinho-body');
-        const header = document.querySelector('.carrinho-header');
-        body.classList.remove('aberto');
-        header.classList.remove('aberto');
-        document.body.classList.remove('carrinho-aberto');
-        
-        // 4. Feedback visual ANIMADO
-        mostrarMensagem("Carrinho limpo com sucesso! 🗑️");
-    } else {
-        // Feedback visual ANIMADO se o usuário cancelar
-        mostrarMensagem("A limpeza foi cancelada. 👍");
-    }
+    // USANDO A NOVA FUNÇÃO ANIMADA
+    confirmarAcaoCustomizada("Tem certeza que deseja limpar todo o carrinho?", (confirmou) => {
+        if (confirmou) {
+            // 1. Ações de limpeza
+            carrinho = [];
+            document.getElementById('numero-mesa').value = '';
+            atualizarInterface();
+            
+            // 2. Fechar o carrinho
+            const body = document.getElementById('carrinho-body');
+            const header = document.querySelector('.carrinho-header');
+            body.classList.remove('aberto');
+            header.classList.remove('aberto');
+            document.body.classList.remove('carrinho-aberto');
+            
+            // 3. Feedback visual ANIMADO
+            mostrarMensagem("Carrinho limpo com sucesso! 🗑️");
+        } else {
+            // Feedback visual ANIMADO se o usuário cancelar
+            mostrarMensagem("A limpeza foi cancelada. 👍");
+        }
+    });
 }
 
 // Função para mostrar mensagem temporária
@@ -761,6 +796,7 @@ document.addEventListener('click', function(event) {
     
 </body>
 </html>
+
 
 
 

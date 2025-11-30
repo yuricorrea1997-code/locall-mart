@@ -1,15 +1,17 @@
-
-/* Cabeçalho */
+/* --- ESTILO PARA O CABEÇALHO --- */
 header {
-    /* CORREÇÃO: Fundo com imagem de textura do cardápio */
+    /* CORREÇÃO DA IMAGEM DE FUNDO: Usando a TEXTURA de chuva/poeira */
     background-color: #000;
     background-image: 
+        /* Overlay mais escuro para garantir que o logo/links sejam legíveis */
         linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
-        url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/fundo_cardapio.jpg');
+        
+        /* URL da sua imagem de TEXTURA (textura_header.png) */
+        url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/textura_header.png');
     
-    background-size: cover;
+    background-size: cover; /* Garante que a textura preencha o fundo */
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: fixed; /* Efeito Parallax */
     background-position: center center;
 
     padding: 20px 0;
@@ -21,16 +23,16 @@ header {
 
 header .container {
     display: flex;
-    justify-content: space-between; /* Mantém logo em uma ponta, links na outra */
+    justify-content: space-between; /* Logo à esquerda, links à direita */
     align-items: center;
 }
 
-/* Removido o <h1>, pois usamos imagem. */
+/* Removido o <h1> (Texto) */
 header h1 {
     display: none;
 }
 
-/* --- ESTILO PARA O LOGO NO CABEÇALHO --- */
+/* --- ESTILO PARA O LOGO (Imagem) --- */
 .nav-logo {
     /* Garante que o fundo do link seja transparente para a textura aparecer */
     background-color: transparent; 
@@ -42,7 +44,7 @@ header h1 {
 
 /* CORREÇÃO: Tamanho e alinhamento do LOGO */
 .nav-logo img {
-    height: 70px; /* Tamanho adequado para navegação */
+    height: 70px; /* Tamanho ajustado conforme sua última preferência */
     width: auto;
     display: block;
     margin: 0; 
@@ -71,6 +73,7 @@ header nav a i {
     margin-right: 5px; /* Espaço entre o ícone e a palavra */
     color: var(--primary-color);
 }
+    
 
 
 
@@ -368,6 +371,7 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 
 
 

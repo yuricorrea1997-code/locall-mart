@@ -11,10 +11,6 @@ header .container {
     align-items: center;
 }
 
-header h1 {
-    display: none;
-}
-
 .nav-logo {
     background-color: transparent;
     padding: 0;
@@ -54,48 +50,6 @@ header h1 {
     display: none;
 }
 
-/* --- ESTILO PARA O LOGO (Imagem) --- */
-.nav-logo {
-    /* Garante que o fundo do link seja transparente para a textura aparecer */
-    background-color: transparent; 
-    padding: 0; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* CORREÇÃO: Tamanho e alinhamento do LOGO */
-.nav-logo img {
-    height: 70px; /* Tamanho ajustado conforme sua última preferência */
-    width: auto;
-    display: block;
-    margin: 0; 
-}
-
-/* --- ESTILO PARA OS LINKS DE NAVEGAÇÃO --- */
-header nav {
-    /* Garante que os links fiquem agrupados */
-    display: flex; 
-    align-items: center;
-}
-
-header nav a {
-    color: var(--text-color);
-    text-decoration: none;
-    margin-left: 15px;
-    font-weight: 500;
-    
-    /* Para alinhar o ícone com o texto */
-    display: inline-flex;
-    align-items: center;
-}
-
-/* Estilo para os ícones na navegação */
-header nav a i {
-    margin-right: 5px; /* Espaço entre o ícone e a palavra */
-    color: var(--primary-color);
-}
-
 /* Reset básico */
 * {
     margin: 0;
@@ -105,10 +59,10 @@ header nav a i {
 }
 
 :root {
-    --primary-color: #FF9F1C; /* Laranja vibrante (fome/atenção) */
-    --bg-color: #121212;      /* Fundo escuro (elegante para bares) */
-    --text-color: #f1f1f1;    /* Texto claro */
-    --dark-card: #1e1e1e;     /* Fundo dos cards */
+    --primary-color: #FF9F1C;
+    --bg-color: #121212;
+    --text-color: #f1f1f1;
+    --dark-card: #1e1e1e;
 }
 
 body {
@@ -127,40 +81,19 @@ body {
 header {
     background-color: #000;
     padding: 20px 0;
-    position: sticky; /* Menu fixa no topo ao rolar */
+    position: sticky;
     top: 0;
     z-index: 100;
     border-bottom: 2px solid var(--primary-color);
 }
 
-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-header h1 {
-    color: var(--primary-color);
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-header nav a {
-    color: #fff;
-    text-decoration: none;
-    margin-left: 15px;
-    font-weight: 500;
-}
-
 /* Hero Section */
 .hero {
-    /* ** USE ESTE URL E NÃO O QUE TEM "/blob/" ** */
     background: 
         linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
         url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/edit2.png'); 
-        
-    background-size: cover;   /* A nova imagem horizontal preencherá perfeitamente */
-    background-position: center; /* Centraliza o foco no balcão */
+    background-size: cover;
+    background-position: center;
     height: 60vh; 
     display: flex;
     align-items: center;
@@ -171,27 +104,6 @@ header nav a {
 .hero-content {
     position: relative;
     z-index: 5;
-}
-
-/* Cardápio */
-.menu-section {
-    /* 1. GARANTE O BACKGROUND PRETO (Cor do tema) */
-    background-color: var(--bg-color); 
-
-    /* 2. DEFINE A IMAGEM DE FUNDO E O OVERLAY ESCURO */
-    background-image: 
-        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-        url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/fundo_cardapio.png');
-    
-    /* 3. FORÇA COBERTURA E MANTÉM FIXO */
-    background-size: cover;        /* Faz a imagem COBRIR toda a área (sem barras) */
-    background-repeat: no-repeat;
-    background-attachment: fixed; 
-    
-    /* 4. CENTRALIZA O FOCO (Horizontalmente, para não cortar o meio) */
-    background-position: center;   
-    
-    padding: 50px 0;
 }
 
 .btn-cta {
@@ -207,12 +119,21 @@ header nav a {
 }
 
 .btn-cta:hover {
-    transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
+    transform: scale(1.05);
 }
 
-/* Cardápio */
+/* ===== CARDÁPIO ===== */
 .menu-section {
-    padding: 50px 0;
+    background-color: var(--bg-color);
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/fundo_cardapio.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    padding: 50px 0 150px; /* Espaço extra para o carrinho */
+    min-height: calc(100vh - 200px);
 }
 
 /* ===== BOTÕES DE CATEGORIA EXPANSÍVEIS ===== */
@@ -257,37 +178,27 @@ header nav a {
 }
 
 .categoria-conteudo.aberto {
-    max-height: 2000px; /* Valor alto suficiente para conter o conteúdo */
+    max-height: 2000px;
 }
 
-/* Ajuste do grid dentro das categorias */
 .categoria-conteudo .menu-grid {
     padding: 20px;
     margin: 0;
 }
 
-.menu-section h3 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: var(--primary-color);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
 .menu-grid {
     display: grid;
-    grid-template-columns: 1fr; /* Mobile: 1 coluna */
+    grid-template-columns: 1fr;
     gap: 20px;
 }
 
-/* Em telas maiores, usa 2 colunas */
 @media (min-width: 768px) {
     .menu-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-/* Item do Menu (Base) */
+/* Item do Menu */
 .menu-item {
     background-color: var(--dark-card);
     padding: 20px;
@@ -296,42 +207,37 @@ header nav a {
     justify-content: space-between;
     align-items: center;
     border-left: 4px solid var(--primary-color);
-    
-    /* Configurações para virar botão */
-    text-decoration: none; /* Tira o sublinhado de link */
-    transition: all 0.3s ease; /* Suaviza a animação */
-    position: relative; /* Necessário para a mensagem flutuante */
-    cursor: pointer; /* Mãozinha do mouse */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
 }
 
-/* Efeito ao passar o mouse (Hover) */
 .menu-item:hover {
-    transform: translateY(-5px); /* Levanta o card levemente */
-    background-color: #252525;   /* Clareia um pouco o fundo */
-    box-shadow: 0 5px 15px rgba(255, 159, 28, 0.2); /* Sombra laranja suave */
+    transform: translateY(-5px);
+    background-color: #252525;
+    box-shadow: 0 5px 15px rgba(255, 159, 28, 0.2);
 }
 
-/* A Mensagem "Clique para Pedir" (Oculta por padrão) */
 .menu-item::after {
-    content: 'Clique para Pedir 📲'; /* O texto da mensagem */
+    content: 'Clique para Pedir 📲';
     position: absolute;
     bottom: 5px;
     right: 10px;
     font-size: 0.7rem;
     color: var(--primary-color);
     font-weight: bold;
-    opacity: 0; /* Invisível inicialmente */
+    opacity: 0;
     transition: opacity 0.3s;
 }
 
-/* Mostra a mensagem quando passa o mouse */
 .menu-item:hover::after {
-    opacity: 1; /* Torna visível */
+    opacity: 1;
 }
 
 .item-info {
-    flex: 1;             /* Faz o texto ocupar o espaço que sobrar */
-    padding-right: 15px; /* Dá um respiro para não grudar no preço */
+    flex: 1;
+    padding-right: 15px;
 }
 
 .item-info h4 {
@@ -348,8 +254,8 @@ header nav a {
     font-weight: bold;
     color: var(--primary-color);
     font-size: 1.2rem;
-    white-space: nowrap; /* O SEGREDO: Impede o preço de quebrar linha */
-    flex-shrink: 0;      /* O SEGREDO: Impede o preço de ser esmagado */
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .full-menu-link {
@@ -362,7 +268,7 @@ header nav a {
     text-decoration: underline;
 }
 
-/* Rodapé */
+/* ===== RODAPÉ ===== */
 footer {
     background-color: #000;
     padding: 40px 0;
@@ -385,8 +291,7 @@ footer p {
     margin: 0 10px;
 }
 
-/* --- BLOCO DO CARRINHO ATUALIZADO --- */
-
+/* ===== CARRINHO ===== */
 .carrinho-bar {
     position: fixed;
     bottom: 0;
@@ -394,10 +299,10 @@ footer p {
     width: 100%;
     background-color: #222;
     border-top: 2px solid var(--primary-color);
-    display: none; /* Começa invisível */
+    display: none;
     z-index: 999;
     box-shadow: 0 -5px 20px rgba(0,0,0,0.8);
-    /* Removemos o transition daqui para evitar delay na abertura */
+    max-height: 80vh;
 }
 
 .carrinho-header {
@@ -412,31 +317,137 @@ footer p {
 }
 
 .carrinho-body {
-    max-height: 0; /* Escondido por padrão */
-    overflow-y: auto; /* Permite rolar se a lista for grande */
+    max-height: 0;
+    overflow-y: auto;
     background-color: #1a1a1a;
-    transition: max-height 0.4s ease-in-out; /* Animação suave */
+    transition: max-height 0.4s ease-in-out;
 }
 
-/* --- A MÁGICA: CLASSE QUE ABRE O CARRINHO --- */
 .carrinho-body.aberto {
-    max-height: 60vh; /* Abre até 60% da tela */
+    max-height: 60vh;
 }
 
-/* Gira a setinha quando estiver aberto */
 .carrinho-header .fa-chevron-up {
     transition: transform 0.3s;
 }
+
 .carrinho-header.aberto .fa-chevron-up {
-    transform: rotate(180deg); /* Vira a seta para baixo */
+    transform: rotate(180deg);
 }
 
-/* (O resto do CSS da lista continua igual...) */
-#lista-itens { list-style: none; padding: 0; margin: 0; }
-#lista-itens li { padding: 10px 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; color: #ddd; }
-.item-actions { display: flex; align-items: center; gap: 15px; }
-.item-preco { font-weight: bold; color: var(--primary-color); }
-.btn-remove { background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 1.1rem; padding: 5px; }
-.carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
-.carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
-.btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+#lista-itens {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#lista-itens li {
+    padding: 12px 20px;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ddd;
+    min-height: 50px;
+}
+
+.item-nome {
+    flex: 1;
+    font-size: 0.9rem;
+    word-break: break-word;
+    padding-right: 10px;
+}
+
+.item-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.item-preco {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.btn-remove {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 5px;
+}
+
+.carrinho-info p {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #fff;
+    margin: 0;
+}
+
+.carrinho-info span#itens-count {
+    font-size: 0.8rem;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+}
+
+.btn-finalizar {
+    background-color: #25D366;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 3;
+}
+
+/* ===== RESPONSIVIDADE MOBILE ===== */
+@media (max-width: 767px) {
+    .menu-section {
+        padding: 30px 0 180px;
+    }
+    
+    .carrinho-body.aberto {
+        max-height: 50vh;
+    }
+    
+    #lista-itens {
+        max-height: 200px;
+    }
+    
+    .item-nome {
+        font-size: 0.8rem;
+    }
+    
+    .carrinho-header {
+        padding: 12px 15px;
+    }
+    
+    .categoria-btn {
+        padding: 15px 20px;
+        font-size: 1.1rem;
+    }
+}
+
+/* Scroll suave */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-bottom: 150px;
+}
+
+/* Classe para quando o carrinho está aberto */
+body.carrinho-aberto {
+    padding-bottom: 200px;
+}
+
+@media (max-width: 767px) {
+    body.carrinho-aberto {
+        padding-bottom: 250px;
+    }
+}

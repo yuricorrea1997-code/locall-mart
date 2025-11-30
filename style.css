@@ -59,7 +59,7 @@ header nav a {
     
     background: 
         linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), /* Overlay escuro para legibilidade */
-        url('image_2d9519.jpg'); /* Sua imagem do balcão */
+        url('imagembalcao.jpg'); /* Sua imagem do balcão */
         
     background-size: cover;
     background-position: center 30%; /* Ajuste fino na posição vertical para destacar a foto */
@@ -270,4 +270,5 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 

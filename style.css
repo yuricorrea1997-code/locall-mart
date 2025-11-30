@@ -56,13 +56,13 @@ header nav a {
 
 /* Hero Section */
 .hero {
-    /* MUDANÇA: USANDO O NOVO NOME 'edit2.jpg' NO LINK ABSOLUTO */
+    /* ** USE ESTE URL E NÃO O QUE TEM "/blob/" ** */
     background: 
         linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-        url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/edit2.jpg'); 
+        url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/edit2.png'); 
         
-    background-size: cover; /* Garante que preencha todo o banner */
-    background-position: center; /* Centraliza o foco da imagem horizontal */
+    background-size: cover;   /* A nova imagem horizontal preencherá perfeitamente */
+    background-position: center; /* Centraliza o foco no balcão */
     height: 60vh; 
     display: flex;
     align-items: center;
@@ -271,6 +271,7 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 
 
 

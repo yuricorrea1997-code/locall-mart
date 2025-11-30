@@ -83,7 +83,7 @@ header nav a {
     /* 2. DEFINE A IMAGEM DE FUNDO E O OVERLAY ESCURO */
     background-image: 
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-        url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/fundo_cardapio.jpg');
+        url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/fundo_cardapio.png');
     
     /* 3. FORÇA COBERTURA E MANTÉM FIXO */
     background-size: cover;        /* Faz a imagem COBRIR toda a área (sem barras) */
@@ -292,6 +292,7 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 
 
 

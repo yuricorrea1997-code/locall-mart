@@ -56,18 +56,23 @@ header nav a {
 
 /* Hero Section */
 .hero {
-    
+    /* NOVO CÓDIGO: Usando o nome do seu arquivo 'imagembalcao.jpg' */
     background: 
-        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), /* Overlay escuro para legibilidade */
-        url('imagembalcao.jpg'); /* Sua imagem do balcão */
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+        url('imagembalcao.jpg'); 
         
     background-size: cover;
-    background-position: center 30%; /* Ajuste fino na posição vertical para destacar a foto */
-    height: 60vh; /* 60% da altura da tela */
+    background-position: center top; /* Ajuda a focar na parte superior da imagem */
+    height: 60vh; 
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+
+.hero-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
 }
 
 .hero-content h2 {
@@ -270,5 +275,6 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 
 

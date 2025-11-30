@@ -12,7 +12,7 @@
   <header>
     <div class="container">
         <a href="#" class="nav-logo">
-            <img src="https://yuricorrea1997-code.github.io/Bar-do-Vizinho/botecodovizinho.png" aFlt="Boteco do Vizinho Logo">
+            <img src="https://yuricorrea1997-code.github.io/Bar-do-Vizinho/botecodovizinho.png" alt="Boteco do Vizinho Logo">
         </a>
         
         <nav>
@@ -610,7 +610,7 @@ function finalizarPedido(event) {
         return;
     }
 
-  // PREPARA DETALHES PARA CONFIRMAÇÃO
+    // PREPARA DETALHES PARA CONFIRMAÇÃO
     const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
     const quantidadeItens = carrinho.length;
     
@@ -666,31 +666,34 @@ function scrollParaCarrinho() {
 }
 
 function limparCarrinho() {
-    if (event) event.stopPropagation();
+    // Para a propagação do evento, se existir
+    if (window.event) window.event.stopPropagation();
     
     if (carrinho.length === 0) {
-        alert("O carrinho já está vazio!");
+        mostrarMensagem("O carrinho já está vazio! 🤷‍♂️");
         return;
     }
     
+    // 1. Confirmação nativa
     if (confirm("Tem certeza que deseja limpar todo o carrinho?")) {
-    carrinho = [];
-    document.getElementById('numero-mesa').value = '';
-    atualizarInterface();
-    
-    // 🟢 Adicione uma mensagem animada de sucesso!
-    mostrarMensagem("Carrinho limpo com sucesso! ✨");
-}
         
-        // Fecha o carrinho
+        // 2. Ações de limpeza (SÓ SE O USUÁRIO CLICAR EM 'OK')
+        carrinho = [];
+        document.getElementById('numero-mesa').value = '';
+        atualizarInterface();
+        
+        // 3. Fechar o carrinho
         const body = document.getElementById('carrinho-body');
         const header = document.querySelector('.carrinho-header');
         body.classList.remove('aberto');
         header.classList.remove('aberto');
         document.body.classList.remove('carrinho-aberto');
         
-        // Feedback visual
+        // 4. Feedback visual ANIMADO
         mostrarMensagem("Carrinho limpo com sucesso! 🗑️");
+    } else {
+        // Feedback visual ANIMADO se o usuário cancelar
+        mostrarMensagem("A limpeza foi cancelada. 👍");
     }
 }
 
@@ -758,5 +761,7 @@ document.addEventListener('click', function(event) {
     
 </body>
 </html>
+
+
 
 

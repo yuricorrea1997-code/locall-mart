@@ -1,842 +1,769 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boteco do Vizinho</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-        <style>
-        /* Estilos do Overlay do Modal (Fundo Escuro) */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            display: none; /* ESCONDIDO POR PADRÃO */
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        /* Classe para mostrar o modal */
-        .modal-overlay.active {
-            opacity: 1;
-        }
-
-        /* Estilos da Caixa do Modal */
-        .modal-box {
-            background: #fff;
-            padding: 0;
-            border-radius: 5px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            width: 90%; max-width: 400px;
-            text-align: left;
-            overflow: hidden;
-            border: 1px solid #999;
-        }
-
-        .modal-header-text {
-            background-color: #f0f0f0;
-            padding: 10px 20px;
-            font-weight: bold; font-size: 1rem; color: #333;
-            border-bottom: 1px solid #ccc;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        
-        .modal-box p {
-            padding: 20px; font-size: 0.95rem; color: #000; margin: 0;
-        }
-
-        .modal-botoes {
-            padding: 15px 20px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-        }
-
-        .modal-btn-ok, .modal-btn-cancel {
-            padding: 10px 25px; border: none;
-            border-radius: 20px;
-            font-weight: bold; cursor: pointer;
-            transition: background 0.2s;
-            min-width: 80px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-btn-ok {
-            background-color: #6D5B00; /* Marrom escuro */
-            color: #fff;
-            border: 2px solid #6D5B00;
-        }
-
-        .modal-btn-cancel {
-            background-color: #F8E090; /* Amarelo claro */
-            color: #333;
-            border: 2px solid #F8E090;
-        }
-        
-        .modal-btn-ok:hover { background-color: #4A3E00; }
-        .modal-btn-cancel:hover { background-color: #FFECA0; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boteco do Vizinho</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
+<!-- POPUP MODAL -->
+<div id="popupModal" class="popup-modal">
+  <div class="popup-content">
+      <span id="popupClose" class="popup-close">&times;</span>
+      <p id="popupMessage"></p>
+  </div>
+</div>
+        
 <body>
 
-  <header>
-    <div class="container">
-        <a href="#" class="nav-logo">
-            <img src="https://yuricorrea1997-code.github.io/Bar-do-Vizinho/botecodovizinho.png" alt="Boteco do Vizinho Logo">
-        </a>
-        
-        <nav>
-            <a href="#cardapio">
-                <i class="fas fa-utensils"></i> Cardápio
-            </a>
-            <a href="#contato">
-                <i class="fas fa-map-marker-alt"></i> Local
-            </a>
-        </nav>
-    </div>
+  <header>
+    <div class="container">
+        <a href="#" class="nav-logo">
+            <img src="https://yuricorrea1997-code.github.io/Bar-do-Vizinho/botecodovizinho.png" alt="Boteco do Vizinho Logo">
+        </a>
+        
+        <nav>
+            <a href="#cardapio">
+                <i class="fas fa-utensils"></i> Cardápio
+            </a>
+            <a href="#contato">
+                <i class="fas fa-map-marker-alt"></i> Local
+            </a>
+        </nav>
+    </div>
 </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h2>O Ponto de Encontro da Galera</h2>
-            <p>Lanches artesanais, porções generosas e aquela cerveja trincando.</p>
-            <a href="https://api.whatsapp.com/send?phone=5548920048296&text=Seja+bem+vindo+" class="btn-cta" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Pedir Agora
-            </a>
-        </div>
-    </section>
+    <section class="hero">
+        <div class="hero-content">
+            <h2>O Ponto de Encontro da Galera</h2>
+            <p>Lanches artesanais, porções generosas e aquela cerveja trincando.</p>
+            <a href="https://api.whatsapp.com/send?phone=5548920048296&text=Seja+bem+vindo+" class="btn-cta" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Pedir Agora
+            </a>
+        </div>
+    </section>
 
-    <section id="cardapio" class="menu-section">
-    <div class="container">
-                <button class="categoria-btn" onclick="toggleCategoria('lanches')">
-            <span>⭐ Nossos Lanches</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div id="lanches" class="categoria-conteudo">
-            <div class="menu-grid">
-                <div class="menu-item" onclick="adicionarAoCarrinho('X-Locall Bacon', 28.00)">
-                    <div class="item-info">
-                        <h4>X-Bacon</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 28,00</span>
-                    </div>
-                </div>
+    <section id="cardapio" class="menu-section">
+    <div class="container">
+        <!-- NOSSOS LANCHES -->
+        <button class="categoria-btn" onclick="toggleCategoria('lanches')">
+            <span>⭐ Nossos Lanches</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div id="lanches" class="categoria-conteudo">
+            <div class="menu-grid">
+                <div class="menu-item" onclick="adicionarAoCarrinho('X-Locall Bacon', 28.00)">
+                    <div class="item-info">
+                        <h4>X-Bacon</h4>
+                        <p>Pão brioche, burger 180g, muito bacon e cheddar.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 28,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('X-Locall Coração', 34.00)">
-                    <div class="item-info">
-                        <h4>X-Coração</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 34,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('X-Locall Coração', 34.00)">
+                    <div class="item-info">
+                        <h4>X-Coração</h4>
+                        <p>Pão, maionese, alface, tomate, milho, ervilha, queijo e corações.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 34,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('X-Locall Filé', 32.00)">
-                    <div class="item-info">
-                        <h4>X-Filé</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 32,00</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('X-Locall Filé', 32.00)">
+                    <div class="item-info">
+                        <h4>X-Filé</h4>
+                        <p>Pão, maionese, salada completa, queijo e tiras de filé macias.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 32,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <button class="categoria-btn" onclick="toggleCategoria('porcoes')">
-            <span>🍟 Porções</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div id="porcoes" class="categoria-conteudo">
-            <div class="menu-grid">
-                <div class="menu-item" onclick="adicionarAoCarrinho('Porção de Fritas', 45.00)">
-                    <div class="item-info">
-                        <h4>Porção de Fritas</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 45,00</span>
-                    </div>
-                </div>
+        <!-- PORÇÕES -->
+        <button class="categoria-btn" onclick="toggleCategoria('porcoes')">
+            <span>🍟 Porções</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div id="porcoes" class="categoria-conteudo">
+            <div class="menu-grid">
+                <div class="menu-item" onclick="adicionarAoCarrinho('Porção de Fritas', 45.00)">
+                    <div class="item-info">
+                        <h4>Porção de Fritas</h4>
+                        <p>Acompanha maionese especial da casa.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 45,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Porção de Polenta', 45.00)">
-                    <div class="item-info">
-                        <h4>Porção de Polenta</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 45,00</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Porção de Polenta', 45.00)">
+                    <div class="item-info">
+                        <h4>Porção de Polenta</h4>
+                        <p>Acompanha maionese especial da casa.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 45,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <button class="categoria-btn" onclick="toggleCategoria('cervejas600')">
-            <span>🍺 Cervejas 600ml</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div id="cervejas600" class="categoria-conteudo">
-            <div class="menu-grid">
-                <div class="menu-item" onclick="adicionarAoCarrinho('Corona 600ml', 17.00)">
-                    <div class="item-info">
-                        <h4>Corona 600ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 17,00</span>
-                    </div>
-                </div>
+        <!-- CHOPPS E CERVEJAS 600ML -->
+        <button class="categoria-btn" onclick="toggleCategoria('cervejas600')">
+            <span>🍺 Cervejas 600ml</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div id="cervejas600" class="categoria-conteudo">
+            <div class="menu-grid">
+                <div class="menu-item" onclick="adicionarAoCarrinho('Corona 600ml', 17.00)">
+                    <div class="item-info">
+                        <h4>Corona 600ml</h4>
+                        <p>Cerveja importada.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 17,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Heineken 600ml', 17.00)">
-                    <div class="item-info">
-                        <h4>Heineken 600ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 17,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Heineken 600ml', 17.00)">
+                    <div class="item-info">
+                        <h4>Heineken 600ml</h4>
+                        <p>Puro malte refrescante.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 17,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Black Princess 600ml', 17.00)">
-                    <div class="item-info">
-                        <h4>Black Princess 600ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 17,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Black Princess 600ml', 17.00)">
+                    <div class="item-info">
+                        <h4>Black Princess 600ml</h4>
+                        <p>Cerveja escura.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 17,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Original 600ml', 15.00)">
-                    <div class="item-info">
-                        <h4>Original 600ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 15,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Original 600ml', 15.00)">
+                    <div class="item-info">
+                        <h4>Original 600ml</h4>
+                        <p>Clássica da casa.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 15,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Petra Puro Malte 600ml', 14.00)">
-                    <div class="item-info">
-                        <h4>Petra Puro Malte 600ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 14,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Petra Puro Malte 600ml', 14.00)">
+                    <div class="item-info">
+                        <h4>Petra Puro Malte 600ml</h4>
+                        <p>Puro malte de qualidade.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 14,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Amstel 600ml', 14.00)">
-                    <div class="item-info">
-                        <h4>Amstel 600ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 14,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Amstel 600ml', 14.00)">
+                    <div class="item-info">
+                        <h4>Amstel 600ml</h4>
+                        <p>Cerveja leve e refrescante.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 14,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Itaipava Premium 600ml', 13.00)">
-                    <div class="item-info">
-                        <h4>Itaipava Premium 600ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 13,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Itaipava Premium 600ml', 13.00)">
+                    <div class="item-info">
+                        <h4>Itaipava Premium 600ml</h4>
+                        <p>Sabor especial.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 13,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Itaipava Pilsen 600ml', 10.00)">
-                    <div class="item-info">
-                        <h4>Itaipava Pilsen 600ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 10,00</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Itaipava Pilsen 600ml', 10.00)">
+                    <div class="item-info">
+                        <h4>Itaipava Pilsen 600ml</h4>
+                        <p>Gelada e popular.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 10,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <button class="categoria-btn" onclick="toggleCategoria('longnecks')">
-            <span>🍻 Cervejas Long Neck</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div id="longnecks" class="categoria-conteudo">
-            <div class="menu-grid">
-                <div class="menu-item" onclick="adicionarAoCarrinho('Corona Long Neck', 10.00)">
-                    <div class="item-info">
-                        <h4>Corona Long Neck</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 10,00</span>
-                    </div>
-                </div>
+        <!-- CERVEJAS LONG NECK -->
+        <button class="categoria-btn" onclick="toggleCategoria('longnecks')">
+            <span>🍻 Cervejas Long Neck</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div id="longnecks" class="categoria-conteudo">
+            <div class="menu-grid">
+                <div class="menu-item" onclick="adicionarAoCarrinho('Corona Long Neck', 10.00)">
+                    <div class="item-info">
+                        <h4>Corona Long Neck</h4>
+                        <p>Cerveja importada.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 10,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Heineken Long Neck', 10.00)">
-                    <div class="item-info">
-                        <h4>Heineken Long Neck</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 10,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Heineken Long Neck', 10.00)">
+                    <div class="item-info">
+                        <h4>Heineken Long Neck</h4>
+                        <p>Puro malte.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 10,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Stella Artois Long Neck', 10.00)">
-                    <div class="item-info">
-                        <h4>Stella Artois Long Neck</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 10,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Stella Artois Long Neck', 10.00)">
+                    <div class="item-info">
+                        <h4>Stella Artois Long Neck</h4>
+                        <p>Cerveja belga.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 10,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Budweiser Long Neck', 10.00)">
-                    <div class="item-info">
-                        <h4>Budweiser Long Neck</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 10,00</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Budweiser Long Neck', 10.00)">
+                    <div class="item-info">
+                        <h4>Budweiser Long Neck</h4>
+                        <p>American lager.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 10,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <button class="categoria-btn" onclick="toggleCategoria('sleek')">
-            <span>🥫 Cervejas Sleek</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div id="sleek" class="categoria-conteudo">
-            <div class="menu-grid">
-                <div class="menu-item" onclick="adicionarAoCarrinho('Corona Sleek 350ml', 7.99)">
-                    <div class="item-info">
-                        <h4>Corona Sleek 350ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 7,99</span>
-                    </div>
-                </div>
+        <!-- CERVEJAS SLEEK -->
+        <button class="categoria-btn" onclick="toggleCategoria('sleek')">
+            <span>🥫 Cervejas Sleek</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div id="sleek" class="categoria-conteudo">
+            <div class="menu-grid">
+                <div class="menu-item" onclick="adicionarAoCarrinho('Corona Sleek 350ml', 7.99)">
+                    <div class="item-info">
+                        <h4>Corona Sleek 350ml</h4>
+                        <p>Lata sleek importada.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 7,99</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Heineken Sleek 350ml', 7.99)">
-                    <div class="item-info">
-                        <h4>Heineken Sleek 350ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 7,99</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Heineken Sleek 350ml', 7.99)">
+                    <div class="item-info">
+                        <h4>Heineken Sleek 350ml</h4>
+                        <p>Lata sleek puro malte.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 7,99</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Budweiser Sleek 350ml', 6.99)">
-                    <div class="item-info">
-                        <h4>Budweiser Sleek 350ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 6,99</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Budweiser Sleek 350ml', 6.99)">
+                    <div class="item-info">
+                        <h4>Budweiser Sleek 350ml</h4>
+                        <p>Lata sleek americana.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 6,99</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Itaipava Premium Sleek 350ml', 5.50)">
-                    <div class="item-info">
-                        <h4>Itaipava Premium Sleek 350ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 5,50</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Itaipava Premium Sleek 350ml', 5.50)">
+                    <div class="item-info">
+                        <h4>Itaipava Premium Sleek 350ml</h4>
+                        <p>Lata sleek sabor especial.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 5,50</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Amstel Sleek 350ml', 5.50)">
-                    <div class="item-info">
-                        <h4>Amstel Sleek 350ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 5,50</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Amstel Sleek 350ml', 5.50)">
+                    <div class="item-info">
+                        <h4>Amstel Sleek 350ml</h4>
+                        <p>Lata sleek refrescante.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 5,50</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <button class="categoria-btn" onclick="toggleCategoria('latas350')">
-            <span>🍺 Cervejas Lata 350ml</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div id="latas350" class="categoria-conteudo">
-            <div class="menu-grid">
-                <div class="menu-item" onclick="adicionarAoCarrinho('Original Lata 350ml', 6.99)">
-                    <div class="item-info">
-                        <h4>Original Lata 350ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 6,99</span>
-                    </div>
-                </div>
+        <!-- CERVEJAS LATA 350ML -->
+        <button class="categoria-btn" onclick="toggleCategoria('latas350')">
+            <span>🍺 Cervejas Lata 350ml</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div id="latas350" class="categoria-conteudo">
+            <div class="menu-grid">
+                <div class="menu-item" onclick="adicionarAoCarrinho('Original Lata 350ml', 6.99)">
+                    <div class="item-info">
+                        <h4>Original Lata 350ml</h4>
+                        <p>Clássica da casa.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 6,99</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Brahma Lata 350ml', 5.00)">
-                    <div class="item-info">
-                        <h4>Brahma Lata 350ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 5,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Brahma Lata 350ml', 5.00)">
+                    <div class="item-info">
+                        <h4>Brahma Lata 350ml</h4>
+                        <p>Tradicional brasileira.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 5,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Antártica Subzero 350ml', 5.00)">
-                    <div class="item-info">
-                        <h4>Antártica Subzero 350ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 5,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Antártica Subzero 350ml', 5.00)">
+                    <div class="item-info">
+                        <h4>Antártica Subzero 350ml</h4>
+                        <p>Super gelada.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 5,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Itaipava Pilsen Lata 350ml', 3.99)">
-                    <div class="item-info">
-                        <h4>Itaipava Pilsen Lata 350ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 3,99</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Itaipava Pilsen Lata 350ml', 3.99)">
+                    <div class="item-info">
+                        <h4>Itaipava Pilsen Lata 350ml</h4>
+                        <p>Popular e gelada.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 3,99</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <button class="categoria-btn" onclick="toggleCategoria('refrigerantes')">
-            <span>🥤 Refrigerantes</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div id="refrigerantes" class="categoria-conteudo">
-            <div class="menu-grid">
-                <div class="menu-item" onclick="adicionarAoCarrinho('Coca-Cola 2 Litros', 14.99)">
-                    <div class="item-info">
-                        <h4>Coca-Cola 2 Litros</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 14,99</span>
-                    </div>
-                </div>
+        <!-- REFRIGERANTES -->
+        <button class="categoria-btn" onclick="toggleCategoria('refrigerantes')">
+            <span>🥤 Refrigerantes</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div id="refrigerantes" class="categoria-conteudo">
+            <div class="menu-grid">
+                <div class="menu-item" onclick="adicionarAoCarrinho('Coca-Cola 2 Litros', 14.99)">
+                    <div class="item-info">
+                        <h4>Coca-Cola 2 Litros</h4>
+                        <p>Refrigerante 2L.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 14,99</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Coca-Cola 1,5 Litros', 11.00)">
-                    <div class="item-info">
-                        <h4>Coca-Cola 1,5 Litros</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 11,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Coca-Cola 1,5 Litros', 11.00)">
+                    <div class="item-info">
+                        <h4>Coca-Cola 1,5 Litros</h4>
+                        <p>Refrigerante 1,5L.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 11,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Coca-Cola 600ml', 7.00)">
-                    <div class="item-info">
-                        <h4>Coca-Cola 600ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 7,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Coca-Cola 600ml', 7.00)">
+                    <div class="item-info">
+                        <h4>Coca-Cola 600ml</h4>
+                        <p>Refrigerante 600ml.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 7,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Coca-Cola Lata 350ml', 5.00)">
-                    <div class="item-info">
-                        <h4>Coca-Cola Lata 350ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 5,00</span>
-                    </div>
-                </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Coca-Cola Lata 350ml', 5.00)">
+                    <div class="item-info">
+                        <h4>Coca-Cola Lata 350ml</h4>
+                        <p>Lata 350ml.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 5,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('Coca-Cola 200ml', 3.00)">
-                    <div class="item-info">
-                        <h4>Coca-Cola 200ml</h4>
-                    </div>
-                    <div class="price-area">
-                        <span class="price">R$ 3,00</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <div class="menu-item" onclick="adicionarAoCarrinho('Coca-Cola 200ml', 3.00)">
+                    <div class="item-info">
+                        <h4>Coca-Cola 200ml</h4>
+                        <p>Mini lata 200ml.</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="price">R$ 3,00</span>
+                        <span class="add-btn"><i class="fas fa-plus-circle"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div class="full-menu-link">
-            <a href="#" class="btn-secondary">Ver Cardápio Completo (PDF)</a>
-        </div>
-    </div>
+        <div class="full-menu-link">
+            <a href="#" class="btn-secondary">Ver Cardápio Completo (PDF)</a>
+        </div>
+    </div>
 </section>
 
-    <footer id="contato">
-        <div class="container">
-            <h3>Vem pro Boteco do Vizinho</h3>
-            <p>
-    <a href="https://www.google.com/maps/search/?api=1&query=LOCALL+MART+R.+Gentil+Sandin,+47+-+Praia+Comprida,+São+José+-+SC" target="_blank" style="color: #fff; text-decoration: none;">
-        <i class="fas fa-map-marker-alt"></i> R. Gentil Sandin, 47 - Praia Comprida, São José - SC
-    </a>
-            </p>
-            <p>Aberto de Segunda a Domingo, das 08 às 00h</p>
+    <footer id="contato">
+        <div class="container">
+            <h3>Vem pro Boteco do Vizinho</h3>
+            <p>
+    <a href="https://www.google.com/maps/search/?api=1&query=LOCALL+MART+R.+Gentil+Sandin,+47+-+Praia+Comprida,+São+José+-+SC" target="_blank" style="color: #fff; text-decoration: none;">
+        <i class="fas fa-map-marker-alt"></i> R. Gentil Sandin, 47 - Praia Comprida, São José - SC
+    </a>
+            </p>
+            <p>Aberto de Segunda a Domingo, das 08 às 00h</p>
 
-            <div class="socials">
-    <a href="https://www.instagram.com/botecodovizinho_/" target="_blank" style="font-size: 1.5rem;">
-        <i class="fab fa-instagram"></i>
-    </a>
+            <div class="socials">
+    <a href="https://www.instagram.com/botecodovizinho_/" target="_blank" style="font-size: 1.5rem;">
+        <i class="fab fa-instagram"></i>
+    </a>
 
-    <a href="https://www.facebook.com/locallmartvarejo/" target="_blank" style="font-size: 1.5rem;">
-        <i class="fab fa-facebook"></i>
-    </a>
+    <a href="https://www.facebook.com/locallmartvarejo/" target="_blank" style="font-size: 1.5rem;">
+        <i class="fab fa-facebook"></i>
+    </a>
 </div>
-            
-            <p class="copyright">© 2025 Boteco do Vizinho</p>
-        </div>
-    </footer>
+            
+            <p class="copyright">&copy; 2025 Boteco do Vizinho</p>
+        </div>
+    </footer>
 
 <div id="carrinho-bar" class="carrinho-bar">
-    
-    <div class="carrinho-header" onclick="toggleCarrinho()">
-    <div class="carrinho-info">
-        <p>Total: <span id="valor-total">R$ 0,00</span></p>
-        <span id="itens-count">0 itens <i id="seta-icon" class="fas fa-chevron-up" style="margin-left: 5px;"></i></span>
-    </div>
-    <div class="carrinho-botoes">
-        <button onclick="limparCarrinho(event)" class="btn-limpar">
-            <i class="fas fa-trash"></i> Limpar
-        </button>
-        <button onclick="finalizarPedido(event)" class="btn-finalizar">
-            <i class="fab fa-whatsapp"></i> Finalizar
-        </button>
-    </div>
+    
+    <div class="carrinho-header" onclick="toggleCarrinho()">
+    <div class="carrinho-info">
+        <p>Total: <span id="valor-total">R$ 0,00</span></p>
+        <span id="itens-count">0 itens <i id="seta-icon" class="fas fa-chevron-up" style="margin-left: 5px;"></i></span>
+    </div>
+    <div class="carrinho-botoes">
+        <button onclick="limparCarrinho()" class="btn-limpar">
+            <i class="fas fa-trash"></i> Limpar
+        </button>
+        <button onclick="finalizarPedido(event)" class="btn-finalizar">
+            <i class="fab fa-whatsapp"></i> Finalizar
+        </button>
+    </div>
 </div>
 
-    <div id="carrinho-body" class="carrinho-body">
-        
-        <div style="padding: 15px 20px; border-bottom: 1px solid #333; background-color: #222; display: flex; align-items: center; justify-content: space-between;">
-            <label style="color: #FF9F1C; font-weight: bold;">Qual o número da Mesa?</label>
-            <input type="number" id="numero-mesa" placeholder="00" style="width: 60px; padding: 8px; border-radius: 5px; border: 2px solid #FF9F1C; background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 1.1rem;">
-        </div>
+    <div id="carrinho-body" class="carrinho-body">
+        
+        <div style="padding: 15px 20px; border-bottom: 1px solid #333; background-color: #222; display: flex; align-items: center; justify-content: space-between;">
+            <label style="color: #FF9F1C; font-weight: bold;">Qual o número da Mesa?</label>
+            <input type="number" id="numero-mesa" placeholder="00" style="width: 60px; padding: 8px; border-radius: 5px; border: 2px solid #FF9F1C; background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 1.1rem;">
+        </div>
 
-        <ul id="lista-itens">
-            </ul>
-    </div>
+        <ul id="lista-itens">
+            </ul>
+    </div>
 </div>
 
-<div id="modal-confirmacao" class="modal-overlay">
-    <div class="modal-box">
-        <div class="modal-header-text">
-            yuricorrea1997-code.github.io diz
-        </div>
-        <p>Tem certeza que deseja limpar todo o carrinho?</p>
-        <div class="modal-botoes">
-            <button id="modal-ok-btn" class="modal-btn-ok">OK</button>
-            <button id="modal-cancel-btn" class="modal-btn-cancel">Cancelar</button>
-        </div>
-    </div>
-</div>
 <script>
 // ===== FUNÇÃO PARA AS CATEGORIAS EXPANSÍVEIS =====
 function toggleCategoria(id) {
-    const conteudo = document.getElementById(id);
-    const botao = event.currentTarget;
-    
-    // Alterna a classe 'aberto' no conteúdo
-    conteudo.classList.toggle('aberto');
-    
-    // Alterna a classe 'ativo' no botão (para girar a seta)
-    botao.classList.toggle('ativo');
+    const conteudo = document.getElementById(id);
+    const botao = event.currentTarget;
+    
+    // Alterna a classe 'aberto' no conteúdo
+    conteudo.classList.toggle('aberto');
+    
+    // Alterna a classe 'ativo' no botão (para girar a seta)
+    botao.classList.toggle('ativo');
 }
 
 // ===== FUNÇÕES DO CARRINHO MELHORADAS =====
 let carrinho = [];
 
 function toggleCarrinho() {
-    const body = document.getElementById('carrinho-body');
-    const header = document.querySelector('.carrinho-header');
-    const htmlBody = document.body;
-    
-    body.classList.toggle('aberto');
-    header.classList.toggle('aberto');
-    htmlBody.classList.toggle('carrinho-aberto');
+    const body = document.getElementById('carrinho-body');
+    const header = document.querySelector('.carrinho-header');
+    const htmlBody = document.body;
+    
+    body.classList.toggle('aberto');
+    header.classList.toggle('aberto');
+    htmlBody.classList.toggle('carrinho-aberto');
 }
 
 function adicionarAoCarrinho(nome, preco) {
-    carrinho.push({ nome, preco });
-    atualizarInterface();
-    if(carrinho.length === 1) {
-        const body = document.getElementById('carrinho-body');
-        const header = document.querySelector('.carrinho-header');
-        if (!body.classList.contains('aberto')) {
-            toggleCarrinho();
-            scrollParaCarrinho();
-        }
-        document.getElementById('numero-mesa').focus();
-    }
+    carrinho.push({ nome, preco });
+    atualizarInterface();
+    if(carrinho.length === 1) {
+        const body = document.getElementById('carrinho-body');
+        const header = document.querySelector('.carrinho-header');
+        if (!body.classList.contains('aberto')) {
+            toggleCarrinho();
+            scrollParaCarrinho();
+        }
+        document.getElementById('numero-mesa').focus();
+    }
 }
 
 function removerItem(index) {
-    if(event) event.stopPropagation();
-    carrinho.splice(index, 1);
-    atualizarInterface();
-    if(carrinho.length === 0) {
-        const body = document.getElementById('carrinho-body');
-        const header = document.querySelector('.carrinho-header');
-        body.classList.remove('aberto');
-        header.classList.remove('aberto');
-        document.body.classList.remove('carrinho-aberto');
-    }
+    if(event) event.stopPropagation();
+    carrinho.splice(index, 1);
+    atualizarInterface();
+    if(carrinho.length === 0) {
+        const body = document.getElementById('carrinho-body');
+        const header = document.querySelector('.carrinho-header');
+        body.classList.remove('aberto');
+        header.classList.remove('aberto');
+        document.body.classList.remove('carrinho-aberto');
+    }
 }
 
 function atualizarInterface() {
-    const lista = document.getElementById('lista-itens');
-    const totalSpan = document.getElementById('valor-total');
-    const countSpan = document.getElementById('itens-count');
-    const barra = document.getElementById('carrinho-bar');
+    const lista = document.getElementById('lista-itens');
+    const totalSpan = document.getElementById('valor-total');
+    const countSpan = document.getElementById('itens-count');
+    const barra = document.getElementById('carrinho-bar');
 
-    lista.innerHTML = '';
-    let total = 0;
+    lista.innerHTML = '';
+    let total = 0;
 
-    carrinho.forEach((item, index) => {
-        total += item.preco;
-        let li = document.createElement('li');
-        li.innerHTML = `
-            <span class="item-nome">${item.nome}</span>
-            <div class="item-actions">
-                <span class="item-preco">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
-                <button onclick="removerItem(${index})" class="btn-remove">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </div>
-        `;
-        lista.appendChild(li);
-    });
+    carrinho.forEach((item, index) => {
+        total += item.preco;
+        let li = document.createElement('li');
+        li.innerHTML = `
+            <span class="item-nome">${item.nome}</span>
+            <div class="item-actions">
+                <span class="item-preco">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                <button onclick="removerItem(${index})" class="btn-remove">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        `;
+        lista.appendChild(li);
+    });
 
-    totalSpan.innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    countSpan.innerHTML = `${carrinho.length} item(ns) <i class="fas fa-chevron-up" style="margin-left: 5px;"></i>`;
+    totalSpan.innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    countSpan.innerHTML = `${carrinho.length} item(ns) <i class="fas fa-chevron-up" style="margin-left: 5px;"></i>`;
 
-    if (carrinho.length > 0) {
-        barra.style.display = 'block';
-    } else {
-        barra.style.display = 'none';
-    }
+    if (carrinho.length > 0) {
+        barra.style.display = 'block';
+    } else {
+        barra.style.display = 'none';
+    }
 }
 
 function finalizarPedido(event) {
-    if(event) event.stopPropagation();
+    if(event) event.stopPropagation();
 
-    if (carrinho.length === 0) {
-        mostrarMensagem("Seu carrinho está vazio! 🛒");
-        return;
-    }
+    if (carrinho.length === 0) {
+        mostrarMensagem("Seu carrinho está vazio! 🛒");
+        return;
+    }
 
-    let mesa = document.getElementById('numero-mesa').value;
+    let mesa = document.getElementById('numero-mesa').value;
 
-    if (!mesa) {
-        mostrarMensagem("Por favor, digite o número da sua MESA! 🪑");
-        const body = document.getElementById('carrinho-body');
-        const header = document.querySelector('.carrinho-header');
-        if (!body.classList.contains('aberto')) {
-            toggleCarrinho();
-            scrollParaCarrinho();
-        }
-        document.getElementById('numero-mesa').focus();
-        return;
-    }
+    if (!mesa) {
+        mostrarMensagem("Por favor, digite o número da sua MESA! 🪑");
+        const body = document.getElementById('carrinho-body');
+        const header = document.querySelector('.carrinho-header');
+        if (!body.classList.contains('aberto')) {
+            toggleCarrinho();
+            scrollParaCarrinho();
+        }
+        document.getElementById('numero-mesa').focus();
+        return;
+    }
 
-    // PREPARA DETALHES PARA CONFIRMAÇÃO
-    const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
-    const quantidadeItens = carrinho.length;
-    
-    let resumo = "📋 Resumo do Pedido:\n\n";
-    carrinho.forEach((item, index) => {
-        resumo += `${index + 1}. ${item.nome} - R$ ${item.preco.toFixed(2).replace('.', ',')}\n`;
-    });
-    resumo += `\n💰 Total: R$ ${total.toFixed(2).replace('.', ',')}`;
-    resumo += `\n📦 ${quantidadeItens} item(ns)`;
-    resumo += `\n🪑 Mesa: ${mesa}`;
-    resumo += `\n\nDeseja enviar este pedido para o WhatsApp?`;
+    // PREPARA DETALHES PARA CONFIRMAÇÃO
+    const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
+    const quantidadeItens = carrinho.length;
+    
+    let resumo = "📋 Resumo do Pedido:\n\n";
+    carrinho.forEach((item, index) => {
+        resumo += `${index + 1}. ${item.nome} - R$ ${item.preco.toFixed(2).replace('.', ',')}\n`;
+    });
+    resumo += `\n💰 Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+    resumo += `\n📦 ${quantidadeItens} item(ns)`;
+    resumo += `\n🪑 Mesa: ${mesa}`;
+    resumo += `\n\nDeseja enviar este pedido para o WhatsApp?`;
 
-    // CONFIRMAÇÃO DETALHADA
-    if (confirm(resumo)) {
-        
-        let mensagem = `*NOVO PEDIDO - MESA ${mesa}* 🍽️%0A%0A`;
-        
-        carrinho.forEach(item => {
-            mensagem += `- ${item.nome} ... R$ ${item.preco.toFixed(2).replace('.', ',')}%0A`;
-        });
+    // CONFIRMAÇÃO DETALHADA
+    if (confirm(resumo)) {
+        
+        let mensagem = `*NOVO PEDIDO - MESA ${mesa}* 🍽️%0A%0A`;
+        
+        carrinho.forEach(item => {
+            mensagem += `- ${item.nome} ... R$ ${item.preco.toFixed(2).replace('.', ',')}%0A`;
+        });
 
-        mensagem += `%0A*Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
-        mensagem += `%0A*Mesa:* ${mesa}`;
+        mensagem += `%0A*Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
+        mensagem += `%0A*Mesa:* ${mesa}`;
 
-        let numeroTelefone = "5548920048296"; 
-        let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
-        
-        // Feedback visual
-        mostrarMensagem("✅ Pedido enviado com sucesso!");
-        
-        // Limpa o carrinho após enviar (agora chama a nova função)
-        setTimeout(() => {
-            executarLimpezaConfirmada(false); // Limpa sem mostrar mensagem de sucesso novamente
-        }, 2000);
-        
-        // Abre o WhatsApp
-        setTimeout(() => {
-            window.open(link, '_blank');
-        }, 500);
-    } else {
-        mostrarMensagem("Pedido cancelado ❌");
-    }
+        let numeroTelefone = "5548920048296"; 
+        let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
+        
+        // Feedback visual
+        mostrarMensagem("✅ Pedido enviado com sucesso!");
+        
+        // Limpa o carrinho após enviar
+        setTimeout(() => {
+            limparCarrinho();
+        }, 2000);
+        
+        // Abre o WhatsApp
+        setTimeout(() => {
+            window.open(link, '_blank');
+        }, 500);
+    } else {
+        mostrarMensagem("Pedido cancelado ❌");
+    }
 }
 
 // ===== FUNÇÕES ADICIONAIS PARA MELHOR EXPERIÊNCIA =====
 function scrollParaCarrinho() {
-    setTimeout(() => {
-        const carrinhoBar = document.getElementById('carrinho-bar');
-        if (carrinhoBar) {
-            carrinhoBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-    }, 300);
+    setTimeout(() => {
+        const carrinhoBar = document.getElementById('carrinho-bar');
+        if (carrinhoBar) {
+            carrinhoBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }, 300);
 }
 
-// NOVO: Função que agora abre o modal de confirmação (substitui o confirm nativo)
-function limparCarrinho(event) {
-    if (event) event.stopPropagation();
-    
-    if (carrinho.length === 0) {
-        mostrarMensagem("O carrinho já está vazio! 🛒");
-        return;
-    }
-    
-    // Mostra o modal customizado
-    const modal = document.getElementById('modal-confirmacao');
-    modal.style.display = 'flex';
-    setTimeout(() => modal.classList.add('active'), 10); // Adiciona a classe para a transição
+function limparCarrinho() {
+    if (event) event.stopPropagation();
+    
+    if (carrinho.length === 0) {
+        alert("O carrinho já está vazio!");
+        return;
+    }
+    
+    if (confirm("Tem certeza que deseja limpar todo o carrinho?")) {
+        carrinho = [];
+        document.getElementById('numero-mesa').value = '';
+        atualizarInterface();
+        
+        // Fecha o carrinho
+        const body = document.getElementById('carrinho-body');
+        const header = document.querySelector('.carrinho-header');
+        body.classList.remove('aberto');
+        header.classList.remove('aberto');
+        document.body.classList.remove('carrinho-aberto');
+        
+        // Feedback visual
+        mostrarMensagem("Carrinho limpo com sucesso! 🗑️");
+    }
 }
-
-// NOVO: Função que realmente executa a limpeza (chamada pelo botão OK do modal)
-function executarLimpezaConfirmada(showFeedback = true) {
-    // Esconde o modal
-    const modal = document.getElementById('modal-confirmacao');
-    modal.classList.remove('active');
-    setTimeout(() => modal.style.display = 'none', 300);
-    
-    // Lógica de limpeza
-    carrinho = [];
-    document.getElementById('numero-mesa').value = '';
-    atualizarInterface();
-    
-    // Fecha o carrinho (interface)
-    const body = document.getElementById('carrinho-body');
-    const header = document.querySelector('.carrinho-header');
-    body.classList.remove('aberto');
-    header.classList.remove('aberto');
-    document.body.classList.remove('carrinho-aberto');
-    
-    // Feedback visual
-    if (showFeedback) {
-        mostrarMensagem("Carrinho limpo com sucesso! 🗑️");
-    }
-}
-
-// NOVO: Função que cancela a limpeza (chamada pelo botão Cancelar do modal)
-function fecharModalConfirmacao() {
-    const modal = document.getElementById('modal-confirmacao');
-    modal.classList.remove('active');
-    setTimeout(() => modal.style.display = 'none', 300);
-    mostrarMensagem("Limpeza de carrinho cancelada ❌");
-}
-
 
 // Função para mostrar mensagem temporária
 function mostrarMensagem(mensagem) {
-    // Remove mensagem anterior se existir
-    const mensagemAnterior = document.getElementById('mensagem-carrinho');
-    if (mensagemAnterior) {
-        mensagemAnterior.remove();
-    }
-    
-    // Cria nova mensagem
-    const mensagemEl = document.createElement('div');
-    mensagemEl.id = 'mensagem-carrinho';
-    mensagemEl.textContent = mensagem;
-    mensagemEl.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: var(--primary-color, #FF9F1C); /* Cor principal de fallback */
-        color: #000;
-        padding: 15px 25px;
-        border-radius: 10px;
-        font-weight: bold;
-        z-index: 1000;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        opacity: 0;
-        animation: fadeInOut 2s ease-in-out forwards;
-    `;
+    // Remove mensagem anterior se existir
+    const mensagemAnterior = document.getElementById('mensagem-carrinho');
+    if (mensagemAnterior) {
+        mensagemAnterior.remove();
+    }
     
-    // Define a animação (adicionada aqui pois não temos seu CSS completo)
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes fadeInOut {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-    `;
-    document.head.appendChild(style);
-    
-    document.body.appendChild(mensagemEl);
-    
-    // Remove a mensagem após 2 segundos
-    setTimeout(() => {
-        if (mensagemEl.parentNode) {
-            mensagemEl.remove();
-        }
-    }, 2000);
+    // Cria nova mensagem
+    const mensagemEl = document.createElement('div');
+    mensagemEl.id = 'mensagem-carrinho';
+    mensagemEl.textContent = mensagem;
+    mensagemEl.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--primary-color);
+        color: #000;
+        padding: 15px 25px;
+        border-radius: 10px;
+        font-weight: bold;
+        z-index: 1000;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        animation: fadeInOut 2s ease-in-out;
+    `;
+    
+    document.body.appendChild(mensagemEl);
+    
+    // Remove a mensagem após 2 segundos
+    setTimeout(() => {
+        if (mensagemEl.parentNode) {
+            mensagemEl.remove();
+        }
+    }, 2000);
 }
 
 // ===== INICIALIZAÇÃO =====
 document.addEventListener('DOMContentLoaded', function() {
-    // Adiciona padding no body quando carrinho está aberto
-    const style = document.createElement('style');
-    style.textContent = `
-        body.carrinho-aberto {
-            padding-bottom: 200px;
-        }
-        @media (max-width: 767px) {
-            body.carrinho-aberto {
-                padding-bottom: 250px;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-
-    // Previne que o clique nos itens do carrinho feche o carrinho
-    document.addEventListener('click', function(event) {
-        if (event.target.closest('.carrinho-body') || event.target.closest('.btn-remove')) {
-            event.stopPropagation();
-        }
-    });
-
-    // NOVO: Adiciona os Event Listeners para os botões do Modal Customizado
-    const modalOverlay = document.getElementById('modal-confirmacao');
-    const modalOkBtn = document.getElementById('modal-ok-btn');
-    const modalCancelBtn = document.getElementById('modal-cancel-btn');
-
-    // Botão OK (Executa a limpeza)
-    if (modalOkBtn) {
-        modalOkBtn.addEventListener('click', () => executarLimpezaConfirmada(true));
-    }
-
-    // Botão Cancelar (Fecha o modal)
-    if (modalCancelBtn) {
-        modalCancelBtn.addEventListener('click', fecharModalConfirmacao);
-    }
-
-    // Clicar no overlay (fora da caixa) também fecha o modal
-    if (modalOverlay) {
-        modalOverlay.addEventListener('click', function(e) {
-            if (e.target.id === 'modal-confirmacao') {
-                fecharModalConfirmacao();
-            }
-        });
-    }
+    // Adiciona padding no body quando carrinho está aberto
+    const style = document.createElement('style');
+    style.textContent = `
+        body.carrinho-aberto {
+            padding-bottom: 200px;
+        }
+        @media (max-width: 767px) {
+            body.carrinho-aberto {
+                padding-bottom: 250px;
+            }
+        }
+    `;
+    document.head.appendChild(style);
 });
 
 // Previne que o clique nos itens do carrinho feche o carrinho
 document.addEventListener('click', function(event) {
-    if (event.target.closest('.carrinho-body') || event.target.closest('.btn-remove')) {
-        event.stopPropagation();
-    }
+    if (event.target.closest('.carrinho-body') || event.target.closest('.btn-remove')) {
+        event.stopPropagation();
+    }
 });
 </script>
-    
+    
 </body>
 </html>
+
+
+
+

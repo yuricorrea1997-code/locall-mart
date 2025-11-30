@@ -1,14 +1,17 @@
 header {
-    min-height: 120px; /* garante que a textura apareça */
-    
-    background-image:
-        linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), /* escurecer igual ao cardápio */
-        url('https://i.imgur.com/KlEJPWx.png'); /* textura oficial do cardápio */
+    min-height: 120px;
 
-    background-size: cover;
-    background-repeat: repeat; /* a textura é pequena, precisa repetir */
+    background-color: #000;
+
+    background-image:
+        linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+        url('https://i.imgur.com/KlEJPWx.png');
+
+    background-repeat: repeat;   /* igual ao cardápio */
+    background-size: auto;       /* NÃO estica a textura */
     background-position: center;
 }
+
 
 
 header .container {
@@ -407,6 +410,7 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 
 
 

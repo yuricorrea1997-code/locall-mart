@@ -1,12 +1,9 @@
 header {
     min-height: 120px;
     background: 
-        /* Igual ao cardápio - ajuste a opacidade conforme necessário */
         linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
         url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/textura_header.png') repeat;
 }
-
-
 
 header .container {
     display: flex;
@@ -50,14 +47,6 @@ header nav a {
 header nav a i {
     margin-right: 5px;
     color: var(--primary-color);
-}
-
-
-
-header .container {
-    display: flex;
-    justify-content: space-between; /* Logo à esquerda, links à direita */
-    align-items: center;
 }
 
 /* Removido o <h1> (Texto) */
@@ -106,9 +95,6 @@ header nav a i {
     margin-right: 5px; /* Espaço entre o ícone e a palavra */
     color: var(--primary-color);
 }
-    
-
-
 
 /* Reset básico */
 * {
@@ -208,7 +194,6 @@ header nav a {
     padding: 50px 0;
 }
 
-
 .btn-cta {
     display: inline-block;
     background-color: var(--primary-color);
@@ -228,6 +213,57 @@ header nav a {
 /* Cardápio */
 .menu-section {
     padding: 50px 0;
+}
+
+/* ===== BOTÕES DE CATEGORIA EXPANSÍVEIS ===== */
+.categoria-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary-color), #FF8E53);
+    color: #000;
+    border: none;
+    padding: 18px 25px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 159, 28, 0.3);
+}
+
+.categoria-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 159, 28, 0.4);
+}
+
+.categoria-btn i {
+    transition: transform 0.3s ease;
+}
+
+.categoria-btn.ativo i {
+    transform: rotate(180deg);
+}
+
+.categoria-conteudo {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0 0 12px 12px;
+    margin-bottom: 10px;
+}
+
+.categoria-conteudo.aberto {
+    max-height: 2000px; /* Valor alto suficiente para conter o conteúdo */
+}
+
+/* Ajuste do grid dentro das categorias */
+.categoria-conteudo .menu-grid {
+    padding: 20px;
+    margin: 0;
 }
 
 .menu-section h3 {
@@ -265,7 +301,7 @@ header nav a {
     text-decoration: none; /* Tira o sublinhado de link */
     transition: all 0.3s ease; /* Suaviza a animação */
     position: relative; /* Necessário para a mensagem flutuante */
-    cursor: pointer; /* Mãozinho do mouse */
+    cursor: pointer; /* Mãozinha do mouse */
 }
 
 /* Efeito ao passar o mouse (Hover) */
@@ -404,32 +440,3 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

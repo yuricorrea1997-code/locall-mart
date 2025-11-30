@@ -591,12 +591,15 @@ function atualizarInterface() {
 function finalizarPedido(event) {
     if(event) event.stopPropagation();
 
-    if (carrinho.length === 0) return;
+    if (carrinho.length === 0) {
+        mostrarMensagem("Seu carrinho está vazio! 🛒");
+        return;
+    }
 
     let mesa = document.getElementById('numero-mesa').value;
 
     if (!mesa) {
-        alert("Por favor, digite o número da sua MESA antes de finalizar!");
+        mostrarMensagem("Por favor, digite o número da sua MESA! 🪑");
         const body = document.getElementById('carrinho-body');
         const header = document.querySelector('.carrinho-header');
         if (!body.classList.contains('aberto')) {
@@ -607,26 +610,49 @@ function finalizarPedido(event) {
         return;
     }
 
-    let total = 0;
-    let mensagem = `*NOVO PEDIDO - MESA ${mesa}* 🍽️%0A%0A`;
+    // PREPARA DETALHES PARA CONFIRMAÇÃO
+    const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
+    const quantidadeItens = carrinho.length;
     
-    carrinho.forEach(item => {
-        total += item.preco;
-        mensagem += `- ${item.nome} ... R$ ${item.preco.toFixed(2).replace('.', ',')}%0A`;
+    let resumo = "📋 Resumo do Pedido:\n\n";
+    carrinho.forEach((item, index) => {
+        resumo += `${index + 1}. ${item.nome} - R$ ${item.preco.toFixed(2).replace('.', ',')}\n`;
     });
+    resumo += `\n💰 Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+    resumo += `\n📦 ${quantidadeItens} item(ns)`;
+    resumo += `\n🪑 Mesa: ${mesa}`;
+    resumo += `\n\nDeseja enviar este pedido para o WhatsApp?`;
 
-    mensagem += `%0A*Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
-    mensagem += `%0A*Mesa:* ${mesa}`;
+    // CONFIRMAÇÃO DETALHADA
+    if (confirm(resumo)) {
+        
+        let mensagem = `*NOVO PEDIDO - MESA ${mesa}* 🍽️%0A%0A`;
+        
+        carrinho.forEach(item => {
+            mensagem += `- ${item.nome} ... R$ ${item.preco.toFixed(2).replace('.', ',')}%0A`;
+        });
 
-    let numeroTelefone = "5548920048296"; 
-    let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
-    
-    // Limpa o carrinho após enviar
-    setTimeout(() => {
-        limparCarrinho();
-    }, 1000);
-    
-    window.open(link, '_blank');
+        mensagem += `%0A*Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
+        mensagem += `%0A*Mesa:* ${mesa}`;
+
+        let numeroTelefone = "5548920048296"; 
+        let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
+        
+        // Feedback visual
+        mostrarMensagem("✅ Pedido enviado com sucesso!");
+        
+        // Limpa o carrinho após enviar
+        setTimeout(() => {
+            limparCarrinho();
+        }, 2000);
+        
+        // Abre o WhatsApp
+        setTimeout(() => {
+            window.open(link, '_blank');
+        }, 500);
+    } else {
+        mostrarMensagem("Pedido cancelado ❌");
+    }
 }
 
 // ===== FUNÇÕES ADICIONAIS PARA MELHOR EXPERIÊNCIA =====
@@ -728,5 +754,6 @@ document.addEventListener('click', function(event) {
     
 </body>
 </html>
+
 
 

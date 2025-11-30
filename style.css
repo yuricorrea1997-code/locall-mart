@@ -1,77 +1,76 @@
 
-/* --- ESTILO PARA O CABEÇALHO --- */
+/* Cabeçalho */
 header {
-    background-color: #000; /* Cor de fallback */
+    /* CORREÇÃO: Fundo com imagem de textura do cardápio */
+    background-color: #000;
     background-image: 
-        /* Overlay mais forte para alta legibilidade do logo/links */
         linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
-        
-        /* URL da imagem de brinde/textura (fundo_cardapio.jpg) */
         url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/fundo_cardapio.jpg');
     
-    background-size: cover;        /* Faz a IMAGEM DE FUNDO DO HEADER cobrir toda a área */
+    background-size: cover;
     background-repeat: no-repeat;
-    background-attachment: fixed;  
-    background-position: center center; 
+    background-attachment: fixed;
+    background-position: center center;
 
     padding: 20px 0;
-    position: sticky; 
+    position: sticky;
     top: 0;
     z-index: 100;
     border-bottom: 2px solid var(--primary-color);
 }
 
-/* --- ESTILO PARA O CONTAINER DENTRO DO CABEÇALHO --- */
-/* Este é o ponto chave para CENTRALIZAR o logo e ALINHAR os links */
 header .container {
     display: flex;
-    justify-content: space-between; /* Mantém logo à esquerda, links à direita */
+    justify-content: space-between; /* Mantém logo em uma ponta, links na outra */
     align-items: center;
-    /* Se quiser o logo no centro e links ao lado, use: justify-content: center; */
-    /* E os links precisarão de um estilo "position: absolute;" para irem para os cantos */
 }
 
+/* Removido o <h1>, pois usamos imagem. */
+header h1 {
+    display: none;
+}
 
 /* --- ESTILO PARA O LOGO NO CABEÇALHO --- */
 .nav-logo {
-    /* REMOVER O FUNDO PRETO DO LOGO para que a imagem de fundo do header apareça */
-    background-color: transparent; /* MUITO IMPORTANTE */
+    /* Garante que o fundo do link seja transparente para a textura aparecer */
+    background-color: transparent; 
     padding: 0; 
-    display: flex; /* Para centralizar o <img> dentro do <a> */
+    display: flex;
     align-items: center;
     justify-content: center;
-    flex-grow: 1; /* Permite que o logo ocupe o espaço disponível para centralizar */
-    text-align: center; /* Centraliza a imagem do logo dentro do seu próprio espaço */
 }
 
+/* CORREÇÃO: Tamanho e alinhamento do LOGO */
 .nav-logo img {
-    height: 40px; /* Altura do logo */
+    height: 40px; /* Tamanho adequado para navegação */
     width: auto;
     display: block;
-    margin: 0 auto; /* Centraliza a imagem horizontalmente */
+    margin: 0; 
 }
 
 /* --- ESTILO PARA OS LINKS DE NAVEGAÇÃO --- */
 header nav {
-    /* Garante que o nav não atrapalhe o logo centralizado */
+    /* Garante que os links fiquem agrupados */
     display: flex; 
     align-items: center;
 }
 
 header nav a {
-    color: var(--text-color); 
+    color: var(--text-color);
     text-decoration: none;
     margin-left: 15px;
     font-weight: 500;
+    
+    /* Para alinhar o ícone com o texto */
     display: inline-flex;
     align-items: center;
 }
 
+/* Estilo para os ícones na navegação */
 header nav a i {
-    margin-right: 5px;
+    margin-right: 5px; /* Espaço entre o ícone e a palavra */
     color: var(--primary-color);
 }
-
 
 
 
@@ -369,6 +368,7 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 
 
 

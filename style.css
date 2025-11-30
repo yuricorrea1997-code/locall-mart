@@ -1,4 +1,5 @@
 /* --- ESTILO PARA O CABEÇALHO --- */
+
 header {
     /* CORREÇÃO DA IMAGEM DE FUNDO: Usando a TEXTURA de chuva/poeira */
     background-color: #000;
@@ -9,10 +10,10 @@ header {
         /* URL da sua imagem de TEXTURA (textura_header.png) */
         url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/textura_header.png');
     
-    background-size: cover; /* Garante que a textura preencha o fundo */
-    background-repeat: no-repeat;
-    background-attachment: fixed; /* Efeito Parallax */
-    background-position: center center;
+    background-size: cover; /* Correto para preencher */
+    background-repeat: no-repeat; /* Correto para não repetir */
+    background-attachment: fixed; /* Correto para efeito parallax */
+    background-position: center center; /* Correto para centralizar */
 
     padding: 20px 0;
     position: sticky;
@@ -371,6 +372,7 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 
 
 

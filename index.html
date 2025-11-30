@@ -12,7 +12,7 @@
   <header>
     <div class="container">
         <a href="#" class="nav-logo">
-            <img src="https://yuricorrea1997-code.github.io/Bar-do-Vizinho/botecodovizinho.png" alt="Boteco do Vizinho Logo">
+            <img src="https://yuricorrea1997-code.github.io/Bar-do-Vizinho/botecodovizinho.png" aFlt="Boteco do Vizinho Logo">
         </a>
         
         <nav>
@@ -611,17 +611,52 @@ function finalizarPedido(event) {
     }
 
     // PREPARA DETALHES PARA CONFIRMAÇÃO
-    const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
-    const quantidadeItens = carrinho.length;
+const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
+const quantidadeItens = carrinho.length;
+
+let resumo = "📋 Resumo do Pedido:\n\n";
+carrinho.forEach((item, index) => {
+    resumo += `${index + 1}. ${item.nome} - R$ ${item.preco.toFixed(2).replace('.', ',')}\n`;
+});
+resumo += `\n💰 Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+resumo += `\n📦 ${quantidadeItens} item(ns)`;
+resumo += `\n🪑 Mesa: ${mesa}`;
+resumo += `\n\n💬 Deseja enviar este pedido para o WhatsApp?`; // Texto para o confirm nativo
+
+// ----------------------------------------------------
+// NOVO CÓDIGO ADICIONADO AQUI
+// ----------------------------------------------------
+
+// 1. Exibe a confirmação nativa do navegador (o resumo é longo, então o confirm é prático)
+if (confirm(resumo)) {
     
-    let resumo = "📋 Resumo do Pedido:\n\n";
-    carrinho.forEach((item, index) => {
-        resumo += `${index + 1}. ${item.nome} - R$ ${item.preco.toFixed(2).replace('.', ',')}\n`;
-    });
-    resumo += `\n💰 Total: R$ ${total.toFixed(2).replace('.', ',')}`;
-    resumo += `\n📦 ${quantidadeItens} item(ns)`;
-    resumo += `\n🪑 Mesa: ${mesa}`;
-    resumo += `\n\nDeseja enviar este pedido para o WhatsApp?`;
+    // Se o usuário clicar em OK (Confirmar envio)
+    
+    // Prepara a mensagem para o link do WhatsApp (sem a pergunta final)
+    const mensagemWhatsApp = resumo.replace('\n\n💬 Deseja enviar este pedido para o WhatsApp?', '');
+    
+    // ⚠️ SUBSTITUA 'SEU_NUMERO_AQUI' pelo número de destino do WhatsApp
+    const numeroDestino = '5511999998888'; // Exemplo: +55 (11) 99999-8888
+    
+    const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroDestino}&text=${encodeURIComponent(mensagemWhatsApp)}`;
+    
+    // Abre a URL no WhatsApp em uma nova aba
+    window.open(urlWhatsApp, '_blank');
+    
+    // 2. EXIBE A MENSAGEM ANIMADA DE SUCESSO!
+    mostrarMensagem("✅ Pedido enviado com sucesso! Aguarde a confirmação.");
+    
+    // 3. Limpa o carrinho e a mesa após o envio (boas práticas)
+    carrinho = [];
+    document.getElementById('numero-mesa').value = '';
+    atualizarInterface();
+    
+} else {
+    
+    // Se o usuário clicar em Cancelar
+    // 4. EXIBE A MENSAGEM ANIMADA DE CANCELAMENTO.
+    mostrarMensagem("❌ Envio do pedido cancelado. Você pode continuar editando.");
+}
 
     // CONFIRMAÇÃO DETALHADA
     if (confirm(resumo)) {
@@ -674,9 +709,13 @@ function limparCarrinho() {
     }
     
     if (confirm("Tem certeza que deseja limpar todo o carrinho?")) {
-        carrinho = [];
-        document.getElementById('numero-mesa').value = '';
-        atualizarInterface();
+    carrinho = [];
+    document.getElementById('numero-mesa').value = '';
+    atualizarInterface();
+    
+    // 🟢 Adicione uma mensagem animada de sucesso!
+    mostrarMensagem("Carrinho limpo com sucesso! ✨");
+}
         
         // Fecha o carrinho
         const body = document.getElementById('carrinho-body');
@@ -754,3 +793,4 @@ document.addEventListener('click', function(event) {
     
 </body>
 </html>
+

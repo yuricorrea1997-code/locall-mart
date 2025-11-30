@@ -46,13 +46,13 @@
     <section id="cardapio" class="menu-section">
     <div class="container">
         <!-- NOSSOS LANCHES -->
-        <button class="categoria-btn" onclick="toggleCategoria('lanches')">
+        <button class="categoria-btn" onclick="toggleCategoria('lanches', event)">
             <span>⭐ Nossos Lanches</span>
             <i class="fas fa-chevron-down"></i>
         </button>
         <div id="lanches" class="categoria-conteudo">
             <div class="menu-grid">
-                <div class="menu-item" onclick="adicionarAoCarrinho('X-Locall Bacon', 28.00)">
+                <div class="menu-item" onclick="adicionarAoCarrinho('X Bacon', 28.00)">
                     <div class="item-info">
                         <h4>X-Bacon</h4>
                         <p>Pão brioche, burger 180g, muito bacon e cheddar.</p>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('X-Locall Coração', 34.00)">
+                <div class="menu-item" onclick="adicionarAoCarrinho('X Coração', 34.00)">
                     <div class="item-info">
                         <h4>X-Coração</h4>
                         <p>Pão, maionese, alface, tomate, milho, ervilha, queijo e corações.</p>
@@ -74,7 +74,7 @@
                     </div>
                 </div>
 
-                <div class="menu-item" onclick="adicionarAoCarrinho('X-Locall Filé', 32.00)">
+                <div class="menu-item" onclick="adicionarAoCarrinho('X Filé', 32.00)">
                     <div class="item-info">
                         <h4>X-Filé</h4>
                         <p>Pão, maionese, salada completa, queijo e tiras de filé macias.</p>
@@ -88,7 +88,7 @@
         </div>
 
         <!-- PORÇÕES -->
-        <button class="categoria-btn" onclick="toggleCategoria('porcoes')">
+        <button class="categoria-btn" onclick="toggleCategoria('porcoes', event)">
             <span>🍟 Porções</span>
             <i class="fas fa-chevron-down"></i>
         </button>
@@ -119,7 +119,7 @@
         </div>
 
         <!-- CHOPPS E CERVEJAS 600ML -->
-        <button class="categoria-btn" onclick="toggleCategoria('cervejas600')">
+        <button class="categoria-btn" onclick="toggleCategoria('cervejas600', event)">
             <span>🍺 Cervejas 600ml</span>
             <i class="fas fa-chevron-down"></i>
         </button>
@@ -216,7 +216,7 @@
         </div>
 
         <!-- CERVEJAS LONG NECK -->
-        <button class="categoria-btn" onclick="toggleCategoria('longnecks')">
+        <button class="categoria-btn" onclick="toggleCategoria('longnecks', event)">
             <span>🍻 Cervejas Long Neck</span>
             <i class="fas fa-chevron-down"></i>
         </button>
@@ -269,7 +269,7 @@
         </div>
 
         <!-- CERVEJAS SLEEK -->
-        <button class="categoria-btn" onclick="toggleCategoria('sleek')">
+        <button class="categoria-btn" onclick="toggleCategoria('sleek', event)">
             <span>🥫 Cervejas Sleek</span>
             <i class="fas fa-chevron-down"></i>
         </button>
@@ -333,7 +333,7 @@
         </div>
 
         <!-- CERVEJAS LATA 350ML -->
-        <button class="categoria-btn" onclick="toggleCategoria('latas350')">
+        <button class="categoria-btn" onclick="toggleCategoria('latas350', event)">
             <span>🍺 Cervejas Lata 350ml</span>
             <i class="fas fa-chevron-down"></i>
         </button>
@@ -386,7 +386,7 @@
         </div>
 
         <!-- REFRIGERANTES -->
-        <button class="categoria-btn" onclick="toggleCategoria('refrigerantes')">
+        <button class="categoria-btn" onclick="toggleCategoria('refrigerantes', event)">
             <span>🥤 Refrigerantes</span>
             <i class="fas fa-chevron-down"></i>
         </button>
@@ -524,13 +524,13 @@
 </div>
 
 <script>
-
+    // 1. CONSTANTE GLOBAL (Declarada APENAS uma vez)
     const WHATSAPP_NUMBER = "5548920048296"; 
-
     let carrinho = [];
     
-// ===== FUNÇÃO PARA AS CATEGORIAS EXPANSÍVEIS =====
-function toggleCategoria(id) {
+// --- FUNÇÃO PARA AS CATEGORIAS EXPANSÍVEIS (CORRIGIDA) ---
+// Adicionamos 'event' como parâmetro para garantir que funcione corretamente
+function toggleCategoria(id, event) {
     const conteudo = document.getElementById(id);
     const botao = event.currentTarget;
     
@@ -541,8 +541,7 @@ function toggleCategoria(id) {
     botao.classList.toggle('ativo');
 }
 
-// ===== FUNÇÕES DO CARRINHO MELHORADAS =====
-let carrinho = [];
+// --- FUNÇÕES DE CARRINHO (AJUSTADAS) ---
 
 function toggleCarrinho() {
     const body = document.getElementById('carrinho-body');
@@ -552,6 +551,10 @@ function toggleCarrinho() {
     body.classList.toggle('aberto');
     header.classList.toggle('aberto');
     htmlBody.classList.toggle('carrinho-aberto');
+    
+    // Acessibilidade: Alterna o estado ARIA
+    const isExpanded = header.classList.contains('aberto');
+    header.setAttribute('aria-expanded', isExpanded); 
 }
 
 function adicionarAoCarrinho(nome, preco) {
@@ -568,7 +571,7 @@ function adicionarAoCarrinho(nome, preco) {
     }
 }
 
-function removerItem(index) {
+function removerItem(index, event) {
     if(event) event.stopPropagation();
     carrinho.splice(index, 1);
     atualizarInterface();
@@ -586,6 +589,8 @@ function atualizarInterface() {
     const totalSpan = document.getElementById('valor-total');
     const countSpan = document.getElementById('itens-count');
     const barra = document.getElementById('carrinho-bar');
+    const btnLimpar = document.querySelector('.btn-limpar'); // Para consistência visual
+    const btnFinalizar = document.querySelector('.btn-finalizar'); // Para consistência visual
 
     lista.innerHTML = '';
     let total = 0;
@@ -597,7 +602,7 @@ function atualizarInterface() {
             <span class="item-nome">${item.nome}</span>
             <div class="item-actions">
                 <span class="item-preco">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
-                <button onclick="removerItem(${index})" class="btn-remove">
+                <button onclick="removerItem(${index}, event)" class="btn-remove">
                     <i class="fas fa-trash-alt"></i>
                 </button>
             </div>
@@ -607,21 +612,27 @@ function atualizarInterface() {
 
     totalSpan.innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     
-    // 🎯 NOVO CÓDIGO AQUI: Atualiza o atributo data-count para o CSS
+    // Atualização do Badge e do Texto
     countSpan.setAttribute('data-count', carrinho.length);
-
     countSpan.innerHTML = `${carrinho.length} item(ns) <i class="fas fa-chevron-up" style="margin-left: 5px;"></i>`;
 
     if (carrinho.length > 0) {
         barra.style.display = 'block';
+        btnLimpar.disabled = false; // HABILITA
+        btnFinalizar.disabled = false; // HABILITA
     } else {
         barra.style.display = 'none';
+        btnLimpar.disabled = true; // DESABILITA
+        btnFinalizar.disabled = true; // DESABILITA
     }
 }
 
+// --- FUNÇÃO FINALIZAR PEDIDO (COMPLETA E CORRIGIDA) ---
 function finalizarPedido(event) {
     if(event) event.stopPropagation();
 
+    const btnFinalizar = document.querySelector('.btn-finalizar');
+    
     if (carrinho.length === 0) {
         mostrarMensagem("Seu carrinho está vazio! 🛒");
         return;
@@ -629,11 +640,10 @@ function finalizarPedido(event) {
 
     let mesa = document.getElementById('numero-mesa').value;
 
-    // 1. VERIFICA SE ESTÁ VAZIO
+    // VALIDAÇÃO DE MESA (VAZIO)
     if (!mesa) {
         mostrarMensagem("Por favor, digite o número da sua MESA! 🪑");
         const body = document.getElementById('carrinho-body');
-        const header = document.querySelector('.carrinho-header');
         if (!body.classList.contains('aberto')) {
             toggleCarrinho();
             scrollParaCarrinho();
@@ -642,16 +652,12 @@ function finalizarPedido(event) {
         return;
     }
 
-    // 2. NOVO: VALIDAÇÃO DE INTERVALO E NÚMERO
+    // VALIDAÇÃO DE MESA (INTERVALO)
     const numMesa = parseInt(mesa, 10);
-    
-    // Verifica se não é um número, se é menor que 1 ou se é maior que 20
     if (isNaN(numMesa) || numMesa < 1 || numMesa > 20) {
         mostrarMensagem("Número de Mesa inválido. Deve ser entre 1 e 20! ⚠️");
         
-        // Assegura que o carrinho esteja aberto e foca no campo para correção
         const body = document.getElementById('carrinho-body');
-        const header = document.querySelector('.carrinho-header');
         if (!body.classList.contains('aberto')) {
             toggleCarrinho();
             scrollParaCarrinho();
@@ -659,23 +665,15 @@ function finalizarPedido(event) {
         document.getElementById('numero-mesa').focus();
         return;
     }
-    // Fim da nova validação
     
-    // 3. PREPARA DETALHES PARA CONFIRMAÇÃO (O RESTO DO CÓDIGO PERMANECE IGUAL)
+    // PREPARA DETALHES
     const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
-    const quantidadeItens = carrinho.length;
     
-    let resumo = "📋 Resumo do Pedido:\n\n";
-    carrinho.forEach((item, index) => {
-        resumo += `${index + 1}. ${item.nome} - R$ ${item.preco.toFixed(2).replace('.', ',')}\n`;
-    });
-    resumo += `\n💰 Total: R$ ${total.toFixed(2).replace('.', ',')}`;
-    resumo += `\n📦 ${quantidadeItens} item(ns)`;
-    resumo += `\n🪑 Mesa: ${mesa}`;
-    
-    
-    // CONFIRMAÇÃO DETALHADA CUSTOMIZADA (ANIMADA)
-    confirmarAcaoCustomizada(resumo + "\n\nDeseja enviar este pedido para o WhatsApp?", (confirmou) => {
+    // DESABILITA O BOTÃO ANTES DE ABRIR O MODAL
+    btnFinalizar.disabled = true;
+
+    // CONFIRMAÇÃO CUSTOMIZADA
+    confirmarAcaoCustomizada(`📋 Resumo do Pedido:\n\n${resumoFormatado(total, mesa)}\n\nDeseja enviar este pedido para o WhatsApp?`, (confirmou) => {
         if (confirmou) {
             
             let mensagem = `*NOVO PEDIDO - MESA ${mesa}* 🍽️%0A%0A`;
@@ -687,8 +685,7 @@ function finalizarPedido(event) {
             mensagem += `%0A*Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
             mensagem += `%0A*Mesa:* ${mesa}`;
 
-            let link = `https://wa.me/${WHATSAPP_NUMBER}?text=${mensagem}`;
-            let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
+            let link = `https://wa.me/${WHATSAPP_NUMBER}?text=${mensagem}`; 
             
             mostrarMensagem("✅ Pedido enviado com sucesso! Abrindo WhatsApp...");
             
@@ -697,6 +694,7 @@ function finalizarPedido(event) {
             }, 500);
             
             setTimeout(() => {
+                // Limpeza e fechamento do carrinho
                 carrinho = [];
                 document.getElementById('numero-mesa').value = '';
                 atualizarInterface();
@@ -706,15 +704,32 @@ function finalizarPedido(event) {
                 body.classList.remove('aberto');
                 header.classList.remove('aberto');
                 document.body.classList.remove('carrinho-aberto');
+                
+                btnFinalizar.disabled = false; // REABILITA APÓS O SUCESSO
             }, 2000);
             
         } else {
+            // SE CANCELAR
             mostrarMensagem("Pedido cancelado ❌");
+            btnFinalizar.disabled = false; // REABILITA APÓS O CANCELAMENTO
         }
     });
 }
 
-// ===== FUNÇÕES ADICIONAIS PARA MELHOR EXPERIÊNCIA =====
+// --- FUNÇÕES AUXILIARES ---
+
+function resumoFormatado(total, mesa) {
+    let resumo = '';
+    const quantidadeItens = carrinho.length;
+    carrinho.forEach((item) => {
+        resumo += `- ${item.nome} - R$ ${item.preco.toFixed(2).replace('.', ',')}\n`;
+    });
+    resumo += `\n💰 Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+    resumo += `\n📦 ${quantidadeItens} item(ns)`;
+    resumo += `\n🪑 Mesa: ${mesa}`;
+    return resumo;
+}
+
 function scrollParaCarrinho() {
     setTimeout(() => {
         const carrinhoBar = document.getElementById('carrinho-bar');
@@ -724,7 +739,7 @@ function scrollParaCarrinho() {
     }, 300);
 }
 
-    function confirmarAcaoCustomizada(mensagem, callback) {
+function confirmarAcaoCustomizada(mensagem, callback) {
     const modal = document.getElementById('confirmacao-custom');
     const texto = document.getElementById('confirmacao-texto');
     const btnSim = document.getElementById('btn-sim');
@@ -783,7 +798,6 @@ function limparCarrinho() {
     });
 }
 
-// Função para mostrar mensagem temporária
 function mostrarMensagem(mensagem) {
     // Remove mensagem anterior se existir
     const mensagemAnterior = document.getElementById('mensagem-carrinho');
@@ -835,6 +849,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
     document.head.appendChild(style);
+    
+    // 🎯 Ajuste necessário no HTML:
+    // O JS depende que as funções de categoria recebam o objeto event.
+    // É necessário que o HTML também seja ajustado.
 });
 
 // Previne que o clique nos itens do carrinho feche o carrinho
@@ -847,6 +865,7 @@ document.addEventListener('click', function(event) {
     
 </body>
 </html>
+
 
 
 

@@ -7,15 +7,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-
-<!-- POPUP MODAL -->
-<div id="popupModal" class="popup-modal">
-  <div class="popup-content">
-      <span id="popupClose" class="popup-close">&times;</span>
-      <p id="popupMessage"></p>
-  </div>
-</div>
-        
 <body>
 
   <header>
@@ -601,14 +592,14 @@ function finalizarPedido(event) {
     if(event) event.stopPropagation();
 
     if (carrinho.length === 0) {
-        mostrarPopup("Seu carrinho está vazio! 🛒");
+        mostrarMensagem("Seu carrinho está vazio! 🛒");
         return;
     }
 
     let mesa = document.getElementById('numero-mesa').value;
 
     if (!mesa) {
-        mostrarPopup("Por favor, digite o número da sua MESA! 🪑");
+        mostrarMensagem("Por favor, digite o número da sua MESA! 🪑");
         const body = document.getElementById('carrinho-body');
         const header = document.querySelector('.carrinho-header');
         if (!body.classList.contains('aberto')) {
@@ -648,7 +639,7 @@ function finalizarPedido(event) {
         let link = `https://wa.me/${numeroTelefone}?text=${mensagem}`;
         
         // Feedback visual
-        mostrarPopup("✅ Pedido enviado com sucesso!");
+        mostrarMensagem("✅ Pedido enviado com sucesso!");
         
         // Limpa o carrinho após enviar
         setTimeout(() => {
@@ -660,7 +651,7 @@ function finalizarPedido(event) {
             window.open(link, '_blank');
         }, 500);
     } else {
-        mostrarPopup("Pedido cancelado ❌");
+        mostrarMensagem("Pedido cancelado ❌");
     }
 }
 
@@ -695,26 +686,46 @@ function limparCarrinho() {
         document.body.classList.remove('carrinho-aberto');
         
         // Feedback visual
-        mostrarPopup("Carrinho limpo com sucesso! 🗑️");
+        mostrarMensagem("Carrinho limpo com sucesso! 🗑️");
     }
 }
 
-// NOVO POPUP MODAL
-function mostrarPopup(message) {
-    const modal = document.getElementById("popupModal");
-    const texto = document.getElementById("popupMessage");
-    const closeBtn = document.getElementById("popupClose");
-
-    texto.innerHTML = message;
-    modal.style.display = "flex";
-
-    closeBtn.onclick = () => modal.style.display = "none";
-
-    modal.onclick = (e) => {
-        if (e.target === modal) modal.style.display = "none";
-    };
+// Função para mostrar mensagem temporária
+function mostrarMensagem(mensagem) {
+    // Remove mensagem anterior se existir
+    const mensagemAnterior = document.getElementById('mensagem-carrinho');
+    if (mensagemAnterior) {
+        mensagemAnterior.remove();
+    }
+    
+    // Cria nova mensagem
+    const mensagemEl = document.createElement('div');
+    mensagemEl.id = 'mensagem-carrinho';
+    mensagemEl.textContent = mensagem;
+    mensagemEl.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--primary-color);
+        color: #000;
+        padding: 15px 25px;
+        border-radius: 10px;
+        font-weight: bold;
+        z-index: 1000;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        animation: fadeInOut 2s ease-in-out;
+    `;
+    
+    document.body.appendChild(mensagemEl);
+    
+    // Remove a mensagem após 2 segundos
+    setTimeout(() => {
+        if (mensagemEl.parentNode) {
+            mensagemEl.remove();
+        }
+    }, 2000);
 }
-
 
 // ===== INICIALIZAÇÃO =====
 document.addEventListener('DOMContentLoaded', function() {
@@ -743,8 +754,3 @@ document.addEventListener('click', function(event) {
     
 </body>
 </html>
-
-
-
-
-

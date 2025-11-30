@@ -488,7 +488,10 @@
     <div class="carrinho-header" onclick="toggleCarrinho()">
     <div class="carrinho-info">
         <p>Total: <span id="valor-total">R$ 0,00</span></p>
-        <span id="itens-count">0 itens <i id="seta-icon" class="fas fa-chevron-up" style="margin-left: 5px;"></i></span>
+       <span id="itens-count" class="carrinho-badge" data-count="0">
+    0 itens 
+    <i id="seta-icon" class="fas fa-chevron-up" style="margin-left: 5px;"></i>
+</span>
     </div>
     <div class="carrinho-botoes">
         <button onclick="limparCarrinho()" class="btn-limpar">
@@ -598,6 +601,10 @@ function atualizarInterface() {
     });
 
     totalSpan.innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    
+    // 🎯 NOVO CÓDIGO AQUI: Atualiza o atributo data-count para o CSS
+    countSpan.setAttribute('data-count', carrinho.length);
+
     countSpan.innerHTML = `${carrinho.length} item(ns) <i class="fas fa-chevron-up" style="margin-left: 5px;"></i>`;
 
     if (carrinho.length > 0) {
@@ -835,6 +842,7 @@ document.addEventListener('click', function(event) {
     
 </body>
 </html>
+
 
 
 

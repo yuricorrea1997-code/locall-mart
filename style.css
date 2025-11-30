@@ -42,7 +42,7 @@ header h1 {
 
 /* CORREÇÃO: Tamanho e alinhamento do LOGO */
 .nav-logo img {
-    height: 40px; /* Tamanho adequado para navegação */
+    height: 70px; /* Tamanho adequado para navegação */
     width: auto;
     display: block;
     margin: 0; 
@@ -368,6 +368,7 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 
 
 

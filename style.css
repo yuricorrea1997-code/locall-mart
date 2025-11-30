@@ -56,10 +56,10 @@ header nav a {
 
 /* Hero Section */
 .hero {
-  
+   
     background: 
         linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-        url('bar_hero.jpg'); 
+        url('https://yuricorrea1997-code.github.io/Bar-do-Vizinho/bar_hero.jpg'); 
         
     background-size: cover;
     background-position: 70% 30%; 
@@ -70,9 +70,10 @@ header nav a {
     text-align: center;
 }
 
+/* Mantenha este bloco (garante que o texto aparece acima da imagem) */
 .hero-content {
-    position: relative; /* ESSENCIAL para z-index funcionar */
-    z-index: 5; /* Garante que o texto fique acima do fundo */
+    position: relative;
+    z-index: 5;
 }
 
 .btn-cta {
@@ -270,6 +271,7 @@ footer p {
 .carrinho-info p { font-weight: bold; font-size: 1.1rem; color: #fff; margin: 0; }
 .carrinho-info span#itens-count { font-size: 0.8rem; color: #aaa; display: flex; align-items: center; }
 .btn-finalizar { background-color: #25D366; color: #fff; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; z-index: 3; }
+
 
 
 
